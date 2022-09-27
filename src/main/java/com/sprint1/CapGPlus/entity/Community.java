@@ -17,10 +17,13 @@ public class Community {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
 	private String name;
 	private String description;
+
 	@ManyToMany(mappedBy = "communities")
 	private Set<User> users;
+
 	@OneToMany(mappedBy = "community")
 	private List<Post> posts;
 

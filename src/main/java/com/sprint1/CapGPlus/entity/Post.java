@@ -21,19 +21,25 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
 	private String title;
 	private String content;
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
 	@ManyToOne
 	@JoinColumn(name = "community_id")
 	private Community community;
+
 	@ManyToMany
 	@JoinTable(name = "user_likes", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private HashSet<User> likedBy;
+
 	@OneToMany(mappedBy = "post")
 	private List<Comment> comments;
+
 	private LocalDateTime postedAt;
 
 	public int getId() {
