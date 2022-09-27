@@ -3,6 +3,7 @@ package com.sprint1.CapGPlus.entity;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class Post {
 
 	@ManyToMany
 	@JoinTable(name = "user_likes", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private HashSet<User> likedBy;
+	private Set<User> likedBy;
 
 	@OneToMany(mappedBy = "post")
 	private List<Comment> comments;
@@ -82,7 +83,7 @@ public class Post {
 		this.community = community;
 	}
 
-	public HashSet<User> getLikedBy() {
+	public Set<User> getLikedBy() {
 		return likedBy;
 	}
 
