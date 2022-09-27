@@ -1,7 +1,6 @@
 package com.sprint1.CapGPlus.entity;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -87,7 +86,7 @@ public class Post {
 		return likedBy;
 	}
 
-	public void setLikedBy(HashSet<User> likedBy) {
+	public void setLikedBy(Set<User> likedBy) {
 		this.likedBy = likedBy;
 	}
 

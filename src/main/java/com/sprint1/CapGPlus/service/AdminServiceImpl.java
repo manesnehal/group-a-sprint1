@@ -20,6 +20,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private CommunityRepository communityRepository;
 
+	// Admin Auth starts here
 	@Override
 	public String adminLogin(Admin pass) {
 		Admin a = adRepo.findAll().get(0);
@@ -28,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return "Admin Login Successful";
 	}
+	// Admin Auth ends here
 
 	// Admin Community starts
 

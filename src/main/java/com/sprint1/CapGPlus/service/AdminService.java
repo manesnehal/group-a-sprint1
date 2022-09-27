@@ -8,7 +8,9 @@ import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 
 public interface AdminService {
+	// Admin Auth starts here
 	String adminLogin(Admin pass);
+	// Admin Auth ends here
 
 	// Admin community starts
 
