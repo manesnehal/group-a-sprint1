@@ -24,5 +24,7 @@ public interface AdminService {
 
 	Community addCommunity(Community community) throws CommunityAlreadyExistsException;
 
+	Community editCommunityDetails(int communityId, Community community) throws CommunityNotFoundException;
+
 	// Admin community ends
 }
