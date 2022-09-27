@@ -83,7 +83,7 @@ public class Post {
 		this.community = community;
 	}
 
-	public HashSet<User> getLikedBy() {
+	public Set<User> getLikedBy() {
 		return likedBy;
 	}
 
