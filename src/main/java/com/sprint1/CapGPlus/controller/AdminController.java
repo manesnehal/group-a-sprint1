@@ -19,6 +19,7 @@ import com.sprint1.CapGPlus.service.AdminService;
 
 @RestController
 public class AdminController {
+	// Admin Auth starts here
 	@Autowired
 	private AdminService adminService;
 
@@ -27,6 +28,7 @@ public class AdminController {
 		String msg = adminService.adminLogin(pass);
 		return new ResponseEntity<Object>(msg, HttpStatus.ACCEPTED);
 	}
+	// Admin Auth ends here
 
 	// Admin community starts
 
