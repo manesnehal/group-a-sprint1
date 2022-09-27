@@ -7,6 +7,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+	// Admin Auth starts here
+	@ExceptionHandler(value = InvalidCredentialsException.class)
+	public ResponseEntity<String> invalidPassword(InvalidCredentialsException e) {
+		return new ResponseEntity<>("Incorrect Credentials! Please Try Again!", HttpStatus.NOT_ACCEPTABLE);
+	}
+
+	@ExceptionHandler(value = PasswordMatchException.class)
+	public ResponseEntity<String> passwordMatch(PasswordMatchException e) {
+		return new ResponseEntity<>("New Password cannot be same as Current Password", HttpStatus.CONFLICT);
+	}
+	// Admin Auth ends here
+
 	@ExceptionHandler(value = CommunityNotFoundException.class)
 	public ResponseEntity<String> communityNotFound(CommunityNotFoundException e) {
 		return new ResponseEntity<>("Community not found", HttpStatus.NOT_FOUND);

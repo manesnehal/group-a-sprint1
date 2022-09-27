@@ -2,6 +2,7 @@ package com.sprint1.CapGPlus.service;
 
 import java.util.List;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,8 @@ import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
+import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
+import com.sprint1.CapGPlus.exception.PasswordMatchException;
 import com.sprint1.CapGPlus.repository.AdminRepository;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
 
@@ -21,13 +24,41 @@ public class AdminServiceImpl implements AdminService {
 	private CommunityRepository communityRepository;
 
 	// Admin Auth starts here
+	private void addAdmin() {
+		Admin a = new Admin();
+		a.setFirstName("admin");
+		a.setLastName("admin");
+		a.setPassword(BCrypt.hashpw("admin", BCrypt.gensalt()));
+		adRepo.save(a);
+	}
+
 	@Override
-	public String adminLogin(Admin pass) {
-		Admin a = adRepo.findAll().get(0);
-		if (!a.getPassword().equals(pass.getPassword())) {
-			return "Incorrect Password!";
+	public String adminLogin(Admin pass) throws InvalidCredentialsException {
+		Admin a;
+		try {
+			a = adRepo.findAll().get(0);
+		} catch (Exception e) {
+			addAdmin();
+		}
+		a = adRepo.findAll().get(0);
+		if (!BCrypt.checkpw(pass.getPassword(), a.getPassword())) {
+			throw new InvalidCredentialsException();
 		}
 		return "Admin Login Successful";
+	}
+
+	@Override
+	public String updatePassword(Admin a) throws InvalidCredentialsException, PasswordMatchException {
+		Admin admin = adRepo.findAll().get(0);
+		if (BCrypt.checkpw(a.getPassword(), admin.getPassword())) {
+			throw new PasswordMatchException();
+		}
+		if (!admin.getFirstName().equals(a.getFirstName()) || !admin.getLastName().equals(a.getLastName())) {
+			throw new InvalidCredentialsException();
+		}
+		admin.setPassword(BCrypt.hashpw(a.getPassword(), BCrypt.gensalt()));
+		adRepo.save(admin);
+		return "Password Updated";
 	}
 	// Admin Auth ends here
 
