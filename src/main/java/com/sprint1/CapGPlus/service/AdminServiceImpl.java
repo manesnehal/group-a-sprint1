@@ -50,6 +50,14 @@ public class AdminServiceImpl implements AdminService {
 		return communityRepository.save(community);
 	}
 
+	@Override
+	public Community editCommunityDetails(int communityId, Community community) throws CommunityNotFoundException {
+		if (!communityRepository.existsById(communityId))
+			throw new CommunityNotFoundException();
+		community.setId(communityId);
+		return communityRepository.save(community);
+	}
+
 	// Admin Community ends
 
 }

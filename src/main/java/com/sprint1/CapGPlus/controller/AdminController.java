@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,6 +48,12 @@ public class AdminController {
 	private ResponseEntity<Community> addNewCommunity(@RequestBody Community community)
 			throws CommunityAlreadyExistsException {
 		return new ResponseEntity<>(adminService.addCommunity(community), HttpStatus.CREATED);
+	}
+
+	@PutMapping("/admin/community/{communityId}")
+	private ResponseEntity<Community> editCommunityDetails(@PathVariable int communityId,
+			@RequestBody Community community) throws CommunityNotFoundException {
+		return new ResponseEntity<>(adminService.editCommunityDetails(communityId, community), HttpStatus.OK);
 	}
 
 	// Admin community ends
