@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
+import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.service.AdminService;
 
@@ -40,6 +41,12 @@ public class AdminController {
 	private ResponseEntity<Community> getCommunityById(@PathVariable int communityId)
 			throws CommunityNotFoundException {
 		return new ResponseEntity<>(adminService.getCommunityById(communityId), HttpStatus.OK);
+	}
+
+	@PostMapping("/admin/community")
+	private ResponseEntity<Community> addNewCommunity(@RequestBody Community community)
+			throws CommunityAlreadyExistsException {
+		return new ResponseEntity<>(adminService.addCommunity(community), HttpStatus.CREATED);
 	}
 
 	// Admin community ends

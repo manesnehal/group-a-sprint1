@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
+import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 
 public interface AdminService {
@@ -16,6 +17,8 @@ public interface AdminService {
 	List<Community> getAllCommunities();
 
 	Community getCommunityById(int communityId) throws CommunityNotFoundException;
+
+	Community addCommunity(Community community) throws CommunityAlreadyExistsException;
 
 	// Admin community ends
 }

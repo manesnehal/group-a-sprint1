@@ -11,4 +11,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> communityNotFound(CommunityNotFoundException e) {
 		return new ResponseEntity<>("Community not found", HttpStatus.NOT_FOUND);
 	}
+
+	@ExceptionHandler(value = CommunityAlreadyExistsException.class)
+	public ResponseEntity<String> communityNotFound(CommunityAlreadyExistsException e) {
+		return new ResponseEntity<>("Community already exists", HttpStatus.CONFLICT);
+	}
 }
