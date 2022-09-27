@@ -12,12 +12,14 @@ import com.sprint1.CapGPlus.service.AdminService;
 
 @RestController
 public class AdminController {
+	// AdminAuth starts here
 	@Autowired
 	private AdminService adServ;
-	
+
 	@PostMapping("/admin/login")
 	private ResponseEntity<Object> adminLogin(@RequestBody Admin pass) {
 		String msg = adServ.adminLogin(pass);
 		return new ResponseEntity<Object>(msg, HttpStatus.ACCEPTED);
 	}
+	// AdminAuth ends here
 }
