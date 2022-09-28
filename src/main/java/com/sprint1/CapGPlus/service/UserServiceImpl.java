@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Post createPost(int userId, Post post, int communityId)
-			throws UserNotFoundException, CommunityNotFoundException {
+			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException {
 		// Check if user exists
 		// TODO JWT AUTH if (!userRepository.existsById(post.getUser().getId()))
 		if (!userRepository.existsById(userId))
@@ -54,10 +54,12 @@ public class UserServiceImpl implements UserService {
 		if (!communityRepository.existsById(communityId))
 			throw new CommunityNotFoundException();
 
-		// TODO Check if user is part of that community
-
 		// Get community
 		Community community = communityRepository.findById(communityId).get();
+
+		// Check if user is part of that community
+		if (!community.getUsers().contains(user))
+			throw new ActionNotAllowedException();
 
 		// Set community and user in the post
 		post.setCommunity(community);
@@ -109,6 +111,37 @@ public class UserServiceImpl implements UserService {
 
 		// Delete post
 		postRepository.deleteById(postId);
+	}
+
+	@Override
+	public Post editPost(int userId, int postId, Post post)
+			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
+		// Check if user exists
+		// TODO JWT AUTH if (!userRepository.existsById(post.getUser().getId()))
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+
+		// Get user
+		// TODO User user = userRepository.findById(post.getUser().getId()).get();
+		User user = userRepository.findById(userId).get();
+
+		// Check if post exists
+		if (!postRepository.existsById(postId))
+			throw new PostNotFoundException();
+
+		// Get post
+		Post oldPost = postRepository.findById(postId).get();
+
+		// Check if user has permission to edit this post
+		if (oldPost.getUser().getId() != user.getId())
+			throw new ActionNotAllowedException();
+
+		// Only title and content can be changed
+		// Set updated title and content in the post already present in the repository
+		oldPost.setTitle(post.getTitle());
+		oldPost.setContent(post.getContent());
+
+		return postRepository.save(oldPost);
 	}
 
 	// User post ends

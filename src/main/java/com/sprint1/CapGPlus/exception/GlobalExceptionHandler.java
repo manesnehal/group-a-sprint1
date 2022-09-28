@@ -25,6 +25,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>("This action is not allowed", HttpStatus.UNAUTHORIZED);
 	}
 
+	// Post exceptions
+	@ExceptionHandler(value = PostNotFoundException.class)
+	public ResponseEntity<String> postNotFound(PostNotFoundException e) {
+		return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+	}
+
 	// User exceptions
 	@ExceptionHandler(value = UserNotFoundException.class)
 	public ResponseEntity<String> userNotFound(UserNotFoundException e) {

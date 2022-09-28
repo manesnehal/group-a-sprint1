@@ -24,8 +24,11 @@ public class User {
 
 	private String firstName;
 	private String lastName;
+
+	@JsonIgnore
 	private String password;
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "community_id"))
 	Set<Community> communities;

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,15 +35,22 @@ public class UserController {
 
 	@PostMapping("/user/{userId}/{communityId}/post")
 	private ResponseEntity<Post> createPostInCommunity(@PathVariable int userId, @PathVariable int communityId,
-			@RequestBody Post post) throws UserNotFoundException, CommunityNotFoundException {
+			@RequestBody Post post)
+			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException {
 		return new ResponseEntity<>(userService.createPost(userId, post, communityId), HttpStatus.CREATED);
+	}
+
+	@PutMapping("/user/{userId}/post/{postId}")
+	private ResponseEntity<Post> editPostByPostId(@PathVariable int userId, @PathVariable int postId,
+			@RequestBody Post post) throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
+		return new ResponseEntity<>(userService.editPost(userId, postId, post), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/user/{userId}/post/{postId}")
 	private ResponseEntity<String> deletePostByPostId(@PathVariable int userId, @PathVariable int postId)
 			throws ActionNotAllowedException, UserNotFoundException, PostNotFoundException {
 		userService.deletePost(userId, postId);
-		return new ResponseEntity<>("Post deleted!", HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>("Post deleted!", HttpStatus.OK);
 	}
 
 	// User posts ends
