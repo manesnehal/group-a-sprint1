@@ -17,9 +17,14 @@ import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.service.CommunityService;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
+import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
+import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
+import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
+import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.service.UserService;
 
@@ -53,8 +58,26 @@ public class UserController {
 
 	// User community ends
 
-	// User posts starts
+	@PostMapping("/user")
+	public ResponseEntity<String> saveUser(@RequestBody User user) throws UserNameAlreadyExistsException {
+		userService.saveUser(user);
+		return new ResponseEntity<String>("User successfully created", HttpStatus.CREATED);
+	}
 
+	@PostMapping("/user/login")
+	public ResponseEntity<String> userLogin(@RequestBody DataHolder dataHolder) throws InvalidCredentialsException {
+		if (userService.userLogin(dataHolder))
+			return new ResponseEntity<String>("Logged in succcessfully", HttpStatus.FOUND);
+		return new ResponseEntity<String>("Log in failed", HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/users")
+	public ResponseEntity<List<User>> getAllUsers() {
+		List<User> list = userService.getAllUsers();
+		return new ResponseEntity<List<User>>(list, HttpStatus.FOUND);
+	}
+
+	// User posts starts
 	@GetMapping("/user/{userId}/post")
 	private ResponseEntity<List<Post>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.getAllUserPosts(userId), HttpStatus.OK);
@@ -62,15 +85,24 @@ public class UserController {
 
 	@PostMapping("/user/{userId}/{communityId}/post")
 	private ResponseEntity<Post> createPostInCommunity(@PathVariable int userId, @PathVariable int communityId,
-			@RequestBody Post post) throws UserNotFoundException, CommunityNotFoundException {
+			@RequestBody Post post)
+			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException {
 		return new ResponseEntity<>(userService.createPost(userId, post, communityId), HttpStatus.CREATED);
+	}
+
+	@PutMapping("/user/{userId}/post/{postId}")
+	private ResponseEntity<Post> editPostByPostId(@PathVariable int userId, @PathVariable int postId,
+			@RequestBody Post post) throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
+		return new ResponseEntity<>(userService.editPost(userId, postId, post), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/user/{userId}/post/{postId}")
 	private ResponseEntity<String> deletePostByPostId(@PathVariable int userId, @PathVariable int postId)
 			throws ActionNotAllowedException, UserNotFoundException, PostNotFoundException {
 		userService.deletePost(userId, postId);
-		return new ResponseEntity<>("Post deleted!", HttpStatus.NO_CONTENT);
+
+		return new ResponseEntity<>("Post deleted!", HttpStatus.OK);
+
 	}
 	// User posts ends
 

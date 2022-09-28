@@ -25,6 +25,12 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>("This action is not allowed", HttpStatus.UNAUTHORIZED);
 	}
 
+	// Post exceptions
+	@ExceptionHandler(value = PostNotFoundException.class)
+	public ResponseEntity<String> postNotFound(PostNotFoundException e) {
+		return new ResponseEntity<>("Post not found", HttpStatus.NOT_FOUND);
+	}
+
 	// User exceptions
 	@ExceptionHandler(value = UserNotFoundException.class)
 	public ResponseEntity<String> userNotFound(UserNotFoundException e) {
@@ -40,5 +46,10 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = CommunityAlreadyExistsException.class)
 	public ResponseEntity<String> communityAlreadyExists(CommunityAlreadyExistsException e) {
 		return new ResponseEntity<>("Community already exists", HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(value = UserNameAlreadyExistsException.class)
+	public ResponseEntity<String> userNameAlreadyExists(UserNameAlreadyExistsException e) {
+		return new ResponseEntity<>("Username already exists!! Try with different username", HttpStatus.CONFLICT);
 	}
 }
