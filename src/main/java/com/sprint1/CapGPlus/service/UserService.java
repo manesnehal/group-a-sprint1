@@ -53,7 +53,7 @@ public interface UserService {
 	public List<Post> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException;
 	// User Feed ends here
 
-	public Comment commentOnPost(int userId, int postId, Comment comment);
+	public Comment commentOnPost(int postId, int UserId, Comment comment);
 
 	public List<Post> getAllPostsLikedByUser(int userId);
 }

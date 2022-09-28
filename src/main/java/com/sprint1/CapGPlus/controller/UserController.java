@@ -147,11 +147,12 @@ public class UserController {
 	}
 
 	@PostMapping("/user/{userId}/post/{postId}/comment")
-	private ResponseEntity<String> commentOnPost(@PathVariable int userId, @PathVariable int postId,
+	private ResponseEntity<Comment> commentOnPost(@PathVariable int postId, @PathVariable int userId,
 			@RequestBody Comment comment) {
-		userService.commentOnPost(userId, postId, comment);
-		return new ResponseEntity<String>("Your comment is added",HttpStatus.ACCEPTED);
+		Comment addedComment = userService.commentOnPost(postId, userId, comment);
+		return new ResponseEntity<Comment>(addedComment, HttpStatus.ACCEPTED);
 	}
+
 	@GetMapping("/user/{userId}/likes")
 	private ResponseEntity<List<Post>> getAllPostsLikedByUser(@PathVariable int userId) {
 		return new ResponseEntity<>(userService.getAllPostsLikedByUser(userId), HttpStatus.OK);

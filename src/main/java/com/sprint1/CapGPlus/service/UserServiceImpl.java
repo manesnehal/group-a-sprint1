@@ -258,7 +258,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Comment commentOnPost(int userId, int postId, Comment comment) {
+	public Comment commentOnPost(int postId, int userId, Comment comment) {
 		Post post = postRepository.findById(postId).get();
 		post.getComments().add(comment);
 		postRepository.save(post);
