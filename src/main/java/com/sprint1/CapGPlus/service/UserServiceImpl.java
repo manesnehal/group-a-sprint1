@@ -75,6 +75,13 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAll();
 	}
 
+	@Override
+	public User getUserbyId(int userId) throws UserNotFoundException {
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+		return userRepository.findById(userId).get();
+	}
+
 	// User post starts
 
 	@Override
