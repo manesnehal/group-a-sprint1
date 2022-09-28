@@ -27,10 +27,13 @@ public interface UserService {
 	public List<Post> getAllUserPosts(int userId) throws UserNotFoundException;
 
 	public Post createPost(int userId, Post post, int communityId)
-			throws UserNotFoundException, CommunityNotFoundException;
+			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException;
 
 	public void deletePost(int userId, int postId)
 			throws ActionNotAllowedException, UserNotFoundException, PostNotFoundException;
+
+	public Post editPost(int userId, int postId, Post post)
+			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException;
 
 	// User post ends
 
