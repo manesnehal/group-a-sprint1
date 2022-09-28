@@ -19,13 +19,26 @@ public class GlobalExceptionHandler {
 	}
 	// Admin Auth ends here
 
+	// Permission exceptions
+	@ExceptionHandler(value = ActionNotAllowedException.class)
+	public ResponseEntity<String> actionNotAllowed(ActionNotAllowedException e) {
+		return new ResponseEntity<>("This action is not allowed", HttpStatus.UNAUTHORIZED);
+	}
+
+	// User exceptions
+	@ExceptionHandler(value = UserNotFoundException.class)
+	public ResponseEntity<String> userNotFound(UserNotFoundException e) {
+		return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+	}
+
+	// Community exceptions
 	@ExceptionHandler(value = CommunityNotFoundException.class)
 	public ResponseEntity<String> communityNotFound(CommunityNotFoundException e) {
 		return new ResponseEntity<>("Community not found", HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(value = CommunityAlreadyExistsException.class)
-	public ResponseEntity<String> communityNotFound(CommunityAlreadyExistsException e) {
+	public ResponseEntity<String> communityAlreadyExists(CommunityAlreadyExistsException e) {
 		return new ResponseEntity<>("Community already exists", HttpStatus.CONFLICT);
 	}
 	

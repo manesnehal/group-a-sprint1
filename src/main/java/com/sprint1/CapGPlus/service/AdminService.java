@@ -14,7 +14,7 @@ public interface AdminService {
 	String adminLogin(Admin pass) throws InvalidCredentialsException;
 
 	String updatePassword(Admin a) throws InvalidCredentialsException, PasswordMatchException;
-// Admin Auth ends here
+	// Admin Auth ends here
 
 	// Admin community starts
 
