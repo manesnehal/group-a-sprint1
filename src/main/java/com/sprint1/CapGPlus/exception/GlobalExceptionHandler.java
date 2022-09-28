@@ -52,4 +52,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> userNameAlreadyExists(UserNameAlreadyExistsException e) {
 		return new ResponseEntity<>("Username already exists!! Try with different username", HttpStatus.CONFLICT);
 	}
+	
+	@ExceptionHandler(value = ActionRepititionException.class)
+	public ResponseEntity<String> userNameAlreadyExists(ActionRepititionException e) {
+		return new ResponseEntity<>("You have already liked the post. You cannot like again.", HttpStatus.CONFLICT);
+	}
 }
