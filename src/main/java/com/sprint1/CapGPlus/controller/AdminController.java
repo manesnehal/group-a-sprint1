@@ -61,7 +61,7 @@ public class AdminController {
 
 	@PutMapping("/admin/community/{communityId}")
 	private ResponseEntity<Community> editCommunityDetails(@PathVariable int communityId,
-			@RequestBody Community community) throws CommunityNotFoundException {
+			@RequestBody Community community) throws CommunityNotFoundException, CommunityAlreadyExistsException {
 		return new ResponseEntity<>(adminService.editCommunityDetails(communityId, community), HttpStatus.OK);
 	}
 

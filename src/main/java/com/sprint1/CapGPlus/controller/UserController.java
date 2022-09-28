@@ -23,6 +23,7 @@ import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.ActionRepititionException;
+import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.service.CommunityService;
@@ -82,7 +83,13 @@ public class UserController {
 	}
 	// User-Auth ends
 
+	@GetMapping("/user/{userId}")
+	private ResponseEntity<User> getUserById(@PathVariable int userId) throws UserNotFoundException {
+		return new ResponseEntity<>(userService.getUserbyId(userId), HttpStatus.OK);
+	}
+
 	// User posts starts
+
 	@GetMapping("/user/{userId}/post")
 	private ResponseEntity<List<Post>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.getAllUserPosts(userId), HttpStatus.OK);
@@ -112,9 +119,13 @@ public class UserController {
 	// User posts ends
 
 	// User Feed starts here
-	@GetMapping("/user/{userId}/feed/{order}")
-	private ResponseEntity<Object> getFeed(@PathVariable int userId, @PathVariable String order) {
-		List<Post> p = userService.getAllPostsFromCommunities(userId, order);
+	@GetMapping("/user/{userId}/feed")
+	private ResponseEntity<Object> getFeed(@PathVariable int userId)
+			throws UserNotFoundException, PostUnavailableException {
+		List<Post> p = userService.getAllPostsFromCommunities(userId);
+		if (p == null) {
+			return new ResponseEntity<Object>("You haven't joined any community", HttpStatus.FOUND);
+		}
 		return new ResponseEntity<Object>(p, HttpStatus.FOUND);
 	}
 	// User Feed ends here

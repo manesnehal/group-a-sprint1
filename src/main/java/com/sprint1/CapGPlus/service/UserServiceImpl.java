@@ -1,7 +1,6 @@
 package com.sprint1.CapGPlus.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +19,7 @@ import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.ActionRepititionException;
+import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
@@ -75,6 +75,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
+	}
+
+	@Override
+	public User getUserbyId(int userId) throws UserNotFoundException {
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+		return userRepository.findById(userId).get();
 	}
 
 	// User post starts
@@ -196,13 +203,18 @@ public class UserServiceImpl implements UserService {
 	// User post ends
 	// User Feed starts here
 	@Override
-	public List<Post> getAllPostsFromCommunities(int userId, String order) {
-		List<Post> p = new ArrayList<>();
-		User u = userRepository.findById(userId).get();
-		Set<Community> c = u.getCommunities();
-		for (Community community : c) {
-			System.out.println(postRepository.getAllPostsByCommunity(community, order));
-			p.addAll(postRepository.getAllPostsByCommunity(community, order));
+	public List<Post> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException {
+		try {
+			User u = userRepository.findById(userId).get();
+			if (u.getCommunities().isEmpty()) {
+				return null;
+			}
+		} catch (Exception e) {
+			throw new UserNotFoundException();
+		}
+		List<Post> p = postRepository.getAllPostsByCommunity(userId);
+		if (p.isEmpty()) {
+			throw new PostUnavailableException();
 		}
 		return p;
 	}
@@ -240,4 +252,12 @@ public class UserServiceImpl implements UserService {
 		p.setLikedBy(set);
 		return postRepository.save(p);
 	}
+
+	@Override
+	public Post commentOnPost(int userId, int postId, Comment comment) {
+//		post
+		return null;
+	}
+
+// User Feed ends here
 }
