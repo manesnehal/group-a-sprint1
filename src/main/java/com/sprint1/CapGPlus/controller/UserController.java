@@ -76,7 +76,13 @@ public class UserController {
 		return new ResponseEntity<List<User>>(list, HttpStatus.FOUND);
 	}
 
+	@GetMapping("/user/{userId}")
+	private ResponseEntity<User> getUserById(@PathVariable int userId) throws UserNotFoundException {
+		return new ResponseEntity<>(userService.getUserbyId(userId), HttpStatus.OK);
+	}
+
 	// User posts starts
+
 	@GetMapping("/user/{userId}/post")
 	private ResponseEntity<List<Post>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.getAllUserPosts(userId), HttpStatus.OK);
