@@ -53,16 +53,18 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>("Username already exists!! Try with different username", HttpStatus.CONFLICT);
 	}
 
-	@ExceptionHandler(value = ActionRepititionException.class)
-	public ResponseEntity<String> userNameAlreadyExists(ActionRepititionException e) {
-		return new ResponseEntity<>("You have already liked the post. You cannot like again.", HttpStatus.CONFLICT);
-	}
-
 	// User feed starts here
 	@ExceptionHandler(value = PostUnavailableException.class)
 	public ResponseEntity<String> postUnavailable(PostUnavailableException e) {
 		return new ResponseEntity<>("There are no posts in your communities", HttpStatus.NOT_FOUND);
 	}
+
 	// User feed ends here
+
+	@ExceptionHandler(value = ActionRepititionException.class)
+	public ResponseEntity<String> userNameAlreadyExists(ActionRepititionException e) {
+		return new ResponseEntity<>("You have already liked the post. You cannot like again.", HttpStatus.CONFLICT);
+	}
+
 
 }

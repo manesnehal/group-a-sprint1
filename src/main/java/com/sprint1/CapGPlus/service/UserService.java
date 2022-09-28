@@ -7,10 +7,10 @@ import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
+import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
-import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
@@ -25,12 +25,11 @@ public interface UserService {
 	public User findByUserName(String UserName);
 
 	public List<User> getAllUsers();
+
+
 	// User Auth ends
-
 	public User getUserbyId(int userId) throws UserNotFoundException;
-
-	// User post starts
-
+	// User Post starts
 	public List<Post> getAllUserPosts(int userId) throws UserNotFoundException;
 
 	public Post createPost(int userId, Post post, int communityId)
