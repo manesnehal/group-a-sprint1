@@ -19,7 +19,6 @@ import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
-import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
@@ -266,5 +265,8 @@ public class UserServiceImpl implements UserService {
 		return commentRepository.save(comment);
 	}
 
-// User Feed ends here
+	@Override
+	public List<Post> getAllPostsLikedByUser(int userId) {
+		return postRepository.getAllPostsLikedByUser(userId);
+	}
 }

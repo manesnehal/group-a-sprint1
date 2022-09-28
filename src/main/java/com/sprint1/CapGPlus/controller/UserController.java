@@ -131,6 +131,7 @@ public class UserController {
 	}
 	// User Feed ends here
 
+	// User Like starts
 	@PostMapping("/user/{userId}/post/{postId}/like")
 	private ResponseEntity<String> likeAPost(@PathVariable int userId, @PathVariable int postId)
 			throws UserNotFoundException, PostNotFoundException, ActionRepititionException {
@@ -151,4 +152,10 @@ public class UserController {
 		userService.commentOnPost(userId, postId, comment);
 		return new ResponseEntity<String>("Your comment is added",HttpStatus.ACCEPTED);
 	}
+	@GetMapping("/user/{userId}/likes")
+	private ResponseEntity<List<Post>> getAllPostsLikedByUser(@PathVariable int userId) {
+		return new ResponseEntity<>(userService.getAllPostsLikedByUser(userId), HttpStatus.OK);
+	}
+
+	// User like ends
 }
