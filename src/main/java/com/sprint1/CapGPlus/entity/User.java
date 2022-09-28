@@ -13,8 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -25,16 +23,13 @@ public class User {
 	private String firstName;
 	private String lastName;
 
-	@JsonIgnore
 	private String password;
 	private String userName;
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "community_id"))
 	Set<Community> communities;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	List<Post> posts;
 
