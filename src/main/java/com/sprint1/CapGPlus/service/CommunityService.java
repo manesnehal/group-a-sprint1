@@ -4,20 +4,17 @@ import java.util.List;
 
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
+import com.sprint1.CapGPlus.exception.UserNotFoundException;
 
 public interface CommunityService {
 
 	// User community starts
 
-//	List<Community> getAllCommunities();
+	String joinCommunity(int userId, int communityId) throws CommunityNotFoundException, UserNotFoundException;
 
-//	Community getCommunityById(int communityId);
+	String leaveCommunity(int userId, int communityId) throws CommunityNotFoundException, UserNotFoundException;
 
-	String joinCommunity(int userId, int communityId) throws CommunityNotFoundException;
-
-	String leaveCommunity(int userId, int communityId) throws CommunityNotFoundException;
-
-	List<Community> getCommunitiesbyUserId(int userId);
+	List<Community> getCommunitiesbyUserId(int userId) throws UserNotFoundException;
 
 	// User community ends
 

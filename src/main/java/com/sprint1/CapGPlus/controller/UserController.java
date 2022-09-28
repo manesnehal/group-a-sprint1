@@ -33,36 +33,26 @@ public class UserController {
 
 	// User community starts
 
-//	@GetMapping("/user/{userid}/community")
-//	private ResponseEntity<List<Community>> getAllCommunities() {
-//		return new ResponseEntity<>(userService.getAllCommunities(), HttpStatus.OK);
-//	}
-//
-//	@GetMapping("/user/{userid}/community/{communityId}")
-//	private ResponseEntity<Community> getCommunityById(@PathVariable int communityId)
-//			throws CommunityNotFoundException {
-//		return new ResponseEntity<>(userService.getCommunityById(communityId), HttpStatus.OK);
-//	}
-
 	@PostMapping("/user/{userId}/community/join/{communityId}")
-	private ResponseEntity<Object> joinCommunity(@PathVariable int userId,@PathVariable int communityId)
-			throws CommunityNotFoundException {
+	private ResponseEntity<Object> joinCommunity(@PathVariable int userId, @PathVariable int communityId)
+			throws CommunityNotFoundException, UserNotFoundException {
 		return new ResponseEntity<>(communityService.joinCommunity(userId, communityId), HttpStatus.OK);
 	}
 
-	@PostMapping("/user/{userid}/community/leave/{communityId}")
-	private ResponseEntity<Object> leaveCommunity(@PathVariable int userId,@PathVariable int communityId)
-			throws CommunityNotFoundException {
+	@PostMapping("/user/{userId}/community/leave/{communityId}")
+	private ResponseEntity<Object> leaveCommunity(@PathVariable int userId, @PathVariable int communityId)
+			throws CommunityNotFoundException, UserNotFoundException {
 		return new ResponseEntity<>(communityService.leaveCommunity(userId, communityId), HttpStatus.OK);
 	}
 
 	@GetMapping("/user/{userId}/community")
-	private ResponseEntity<List<Community>> getCommunitiesbyUserId(@PathVariable int userId) {
-		return new ResponseEntity<>(communityService.getCommunitiesbyUserId(userId),
-				HttpStatus.OK);
+	private ResponseEntity<List<Community>> getCommunitiesbyUserId(@PathVariable int userId)
+			throws UserNotFoundException {
+		return new ResponseEntity<>(communityService.getCommunitiesbyUserId(userId), HttpStatus.OK);
 	}
 
 	// User community ends
+
 	// User posts starts
 
 	@GetMapping("/user/{userId}/post")
@@ -82,7 +72,6 @@ public class UserController {
 		userService.deletePost(userId, postId);
 		return new ResponseEntity<>("Post deleted!", HttpStatus.NO_CONTENT);
 	}
-
 	// User posts ends
 
 }
