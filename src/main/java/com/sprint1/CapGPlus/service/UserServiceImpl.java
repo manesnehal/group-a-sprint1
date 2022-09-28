@@ -1,6 +1,7 @@
 package com.sprint1.CapGPlus.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -194,10 +195,11 @@ public class UserServiceImpl implements UserService {
 	// User Feed starts here
 	@Override
 	public List<Post> getAllPostsFromCommunities(int userId, String order) {
-		List<Post> p = null;
+		List<Post> p = new ArrayList<>();
 		User u = userRepository.findById(userId).get();
 		Set<Community> c = u.getCommunities();
 		for (Community community : c) {
+			System.out.println(postRepository.getAllPostsByCommunity(community, order));
 			p.addAll(postRepository.getAllPostsByCommunity(community, order));
 		}
 		return p;

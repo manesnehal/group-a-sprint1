@@ -47,11 +47,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> communityAlreadyExists(CommunityAlreadyExistsException e) {
 		return new ResponseEntity<>("Community already exists", HttpStatus.CONFLICT);
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> branch 'master' of https://github.com/manesnehal/group-a-sprint1.git
 	@ExceptionHandler(value = UserNameAlreadyExistsException.class)
 	public ResponseEntity<String> userNameAlreadyExists(UserNameAlreadyExistsException e) {
 		return new ResponseEntity<>("Username already exists!! Try with different username", HttpStatus.CONFLICT);
