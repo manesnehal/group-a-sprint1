@@ -59,4 +59,9 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>("There are no posts in your communities", HttpStatus.NOT_FOUND);
 	}
 	// User feed ends here
+
+	@ExceptionHandler(value = ActionRepititionException.class)
+	public ResponseEntity<String> userNameAlreadyExists(ActionRepititionException e) {
+		return new ResponseEntity<>("You have already liked the post. You cannot like again.", HttpStatus.CONFLICT);
+	}
 }

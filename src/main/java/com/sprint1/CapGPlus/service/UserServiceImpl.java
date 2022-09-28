@@ -2,6 +2,7 @@ package com.sprint1.CapGPlus.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +14,7 @@ import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
+import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
@@ -216,5 +218,38 @@ public class UserServiceImpl implements UserService {
 		return p;
 	}
 
-// User Feed ends here
+	// User Feed ends here
+
+	@Override
+	public Post likeAPost(int userId, int postId)
+			throws UserNotFoundException, PostNotFoundException, ActionRepititionException {
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+		if (!postRepository.existsById(postId))
+			throw new PostNotFoundException();
+		Set<User> set = postRepository.findById(postId).get().getLikedBy();
+		User u = userRepository.findById(userId).get();
+		if (set.contains(u))
+			throw new ActionRepititionException();
+		set.add(u);
+		Post p = postRepository.findById(postId).get();
+		p.setLikedBy(set);
+		return postRepository.save(p);
+	}
+
+	@Override
+	public Post unlikeAPost(int userId, int postId)
+			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+		if (!postRepository.existsById(postId))
+			throw new PostNotFoundException();
+		Set<User> set = postRepository.findById(postId).get().getLikedBy();
+		if (!set.contains(userRepository.findById(userId).get()))
+			throw new ActionNotAllowedException();
+		Post p = postRepository.findById(postId).get();
+		set.remove(userRepository.findById(userId).get());
+		p.setLikedBy(set);
+		return postRepository.save(p);
+	}
 }
