@@ -26,9 +26,9 @@ public interface UserService {
 
 	public List<User> getAllUsers();
 
-
 	// User Auth ends
 	public User getUserbyId(int userId) throws UserNotFoundException;
+
 	// User Post starts
 	public List<Post> getAllUserPosts(int userId) throws UserNotFoundException;
 
@@ -55,4 +55,5 @@ public interface UserService {
 
 	public Post commentOnPost(int userId, int postId, Comment comment);
 
+	public List<Post> getAllPostsLikedByUser(int userId);
 }

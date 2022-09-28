@@ -22,7 +22,6 @@ import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
-import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
@@ -130,6 +129,7 @@ public class UserController {
 	}
 	// User Feed ends here
 
+	// User Like starts
 	@PostMapping("/user/{userId}/post/{postId}/like")
 	private ResponseEntity<String> likeAPost(@PathVariable int userId, @PathVariable int postId)
 			throws UserNotFoundException, PostNotFoundException, ActionRepititionException {
@@ -143,4 +143,11 @@ public class UserController {
 		userService.unlikeAPost(userId, postId);
 		return new ResponseEntity<String>("You have unliked the post", HttpStatus.ACCEPTED);
 	}
+
+	@GetMapping("/user/{userId}/likes")
+	private ResponseEntity<List<Post>> getAllPostsLikedByUser(@PathVariable int userId) {
+		return new ResponseEntity<>(userService.getAllPostsLikedByUser(userId), HttpStatus.OK);
+	}
+
+	// User like ends
 }
