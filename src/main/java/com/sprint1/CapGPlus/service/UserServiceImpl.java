@@ -217,7 +217,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return p;
 	}
-
 	// User Feed ends here
 
 	@Override
