@@ -2,6 +2,7 @@ package com.sprint1.CapGPlus.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -112,4 +113,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// User post ends
+	// User Feed starts here
+	@Override
+	public List<Post> getAllPostsFromCommunities(int userId, String order) {
+		List<Post> p = null;
+		User u = userRepository.findById(userId).get();
+		Set<Community> c = u.getCommunities();
+		for (Community community : c) {
+			p.addAll(postRepository.getAllPostsByCommunity(community, order));
+		}
+		return p;
+	}
+	// User Feed ends here
 }

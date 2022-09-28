@@ -46,5 +46,11 @@ public class UserController {
 	}
 
 	// User posts ends
-
+	// User Feed starts here
+	@GetMapping("/user/{userId}/feed/{order}")
+	private ResponseEntity<Object> getFeed(@PathVariable int userId, @PathVariable String order) {
+		List<Post> p = userService.getAllPostsFromCommunities(userId, order);
+		return new ResponseEntity<Object>(p, HttpStatus.FOUND);
+	}
+	// User Feed ends here
 }

@@ -11,7 +11,7 @@ import com.sprint1.CapGPlus.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-	@Query("SELECT e FROM User e WHERE e.firstName = :name")
+	@Query(value = "SELECT e FROM User e WHERE e.firstName = :name", nativeQuery = true)
 	public List<User> findByFirstName(@Param("name") String firstName);
 
 }

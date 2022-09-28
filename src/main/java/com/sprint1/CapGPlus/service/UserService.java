@@ -20,4 +20,7 @@ public interface UserService {
 			throws ActionNotAllowedException, UserNotFoundException, PostNotFoundException;
 
 	// User post ends
+	// User Feed starts here
+	public List<Post> getAllPostsFromCommunities(int userId, String order);
+	// User Feed ends here
 }
