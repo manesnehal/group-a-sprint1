@@ -2,8 +2,8 @@ package com.sprint1.CapGPlus.service;
 
 import java.util.List;
 
-import com.sprint1.CapGPlus.entity.Post;
+import com.sprint1.CapGPlus.dto.PostDTO;
 
 public interface PostService {
-	public List<Post> getAllPosts();
+	public List<PostDTO> getAllPosts();
 }
