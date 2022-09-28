@@ -24,10 +24,9 @@ public interface UserService {
 	public User findByUserName(String UserName);
 
 	public List<User> getAllUsers();
+
 	// User Auth ends
-
 	public User getUserbyId(int userId) throws UserNotFoundException;
-
 	// User post starts
 
 	public List<Post> getAllUserPosts(int userId) throws UserNotFoundException;

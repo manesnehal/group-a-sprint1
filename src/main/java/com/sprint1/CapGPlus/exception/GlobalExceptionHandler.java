@@ -60,6 +60,7 @@ public class GlobalExceptionHandler {
 	}
 
 	// User feed ends here
+
 	@ExceptionHandler(value = ActionRepititionException.class)
 	public ResponseEntity<String> userNameAlreadyExists(ActionRepititionException e) {
 		return new ResponseEntity<>("You have already liked the post. You cannot like again.", HttpStatus.CONFLICT);
