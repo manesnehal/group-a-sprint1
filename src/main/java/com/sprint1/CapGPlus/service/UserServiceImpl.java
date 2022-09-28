@@ -23,6 +23,7 @@ import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
+import com.sprint1.CapGPlus.repository.CommentRepository;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
 import com.sprint1.CapGPlus.repository.PostRepository;
 import com.sprint1.CapGPlus.repository.UserRepository;
@@ -38,6 +39,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private PostRepository postRepository;
+
+	@Autowired
+	private CommentRepository commentRepository;
 
 	PasswordEncoder passwordEncoder;
 
@@ -255,9 +259,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Post commentOnPost(int userId, int postId, Comment comment) {
-//		post
-		return null;
+	public Comment commentOnPost(int userId, int postId, Comment comment) {
+		Post post = postRepository.findById(postId).get();
+		post.getComments().add(comment);
+		postRepository.save(post);
+		return commentRepository.save(comment);
 	}
 
 // User Feed ends here

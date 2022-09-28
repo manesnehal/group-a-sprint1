@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
@@ -22,10 +23,10 @@ import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
-import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
+import com.sprint1.CapGPlus.repository.UserRepository;
 import com.sprint1.CapGPlus.service.CommunityService;
 import com.sprint1.CapGPlus.service.PostService;
 import com.sprint1.CapGPlus.service.UserService;
@@ -142,5 +143,12 @@ public class UserController {
 			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
 		userService.unlikeAPost(userId, postId);
 		return new ResponseEntity<String>("You have unliked the post", HttpStatus.ACCEPTED);
+	}
+
+	@PostMapping("/user/{userId}/post/{postId}/comment")
+	private ResponseEntity<String> commentOnPost(@PathVariable int userId, @PathVariable int postId,
+			@RequestBody Comment comment) {
+		userService.commentOnPost(userId, postId, comment);
+		return new ResponseEntity<String>("Your comment is added",HttpStatus.ACCEPTED);
 	}
 }
