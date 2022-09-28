@@ -9,6 +9,7 @@ import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
+import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 
@@ -38,6 +39,6 @@ public interface UserService {
 	// User post ends
 
 	// User Feed starts here
-	public List<Post> getAllPostsFromCommunities(int userId, String order);
+	public List<Post> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException;
 	// User Feed ends here
 }

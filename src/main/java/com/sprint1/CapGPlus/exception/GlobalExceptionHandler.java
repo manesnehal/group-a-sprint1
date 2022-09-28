@@ -52,4 +52,11 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> userNameAlreadyExists(UserNameAlreadyExistsException e) {
 		return new ResponseEntity<>("Username already exists!! Try with different username", HttpStatus.CONFLICT);
 	}
+
+	// User feed starts here
+	@ExceptionHandler(value = PostUnavailableException.class)
+	public ResponseEntity<String> postUnavailable(PostUnavailableException e) {
+		return new ResponseEntity<>("There are no posts in your communities", HttpStatus.NOT_FOUND);
+	}
+	// User feed ends here
 }
