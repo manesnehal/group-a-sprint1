@@ -5,14 +5,19 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.entity.Community;
+import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
+import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
+import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
 import com.sprint1.CapGPlus.repository.PostRepository;
@@ -29,6 +34,45 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private PostRepository postRepository;
+
+	PasswordEncoder passwordEncoder;
+
+	BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+	@Override
+	public User saveUser(User user) throws UserNameAlreadyExistsException {
+		if (userRepository.findByUserName(user.getUserName()) != null)
+			throw new UserNameAlreadyExistsException();
+		String encodedPassword = this.passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
+		System.out.println(user.getFirstName());
+		return userRepository.save(user);
+	}
+
+	public UserServiceImpl(UserRepository userRepository) {
+		this.userRepository = userRepository;
+		this.passwordEncoder = new BCryptPasswordEncoder();
+	}
+
+	@Override
+	public boolean userLogin(DataHolder dataHolder) throws InvalidCredentialsException {
+		if (userRepository.findByUserName(dataHolder.getUserName()) == null
+				|| !bCryptPasswordEncoder.matches(dataHolder.getPassword(),
+						userRepository.findByUserName(dataHolder.getUserName()).getPassword()))
+			throw new InvalidCredentialsException();
+		return bCryptPasswordEncoder.matches(dataHolder.getPassword(),
+				userRepository.findByUserName(dataHolder.getUserName()).getPassword());
+	}
+
+	@Override
+	public User findByUserName(String userName) {
+		return userRepository.findByUserName(userName);
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
+	}
 
 	// User post starts
 
@@ -124,5 +168,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return p;
 	}
+
 	// User Feed ends here
 }

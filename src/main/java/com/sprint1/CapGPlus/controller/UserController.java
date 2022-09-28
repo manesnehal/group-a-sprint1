@@ -12,10 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
+import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
+import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
+import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.service.UserService;
 
@@ -25,6 +29,25 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@PostMapping("/user")
+	public ResponseEntity<String> saveUser(@RequestBody User user) throws UserNameAlreadyExistsException {
+		System.out.println(user.getFirstName());
+		userService.saveUser(user);
+		return new ResponseEntity<String>("User successfully created", HttpStatus.CREATED);
+	}
+
+	@PostMapping("/user/login")
+	public ResponseEntity<String> userLogin(@RequestBody DataHolder dataHolder) throws InvalidCredentialsException {
+		if (userService.userLogin(dataHolder))
+			return new ResponseEntity<String>("Logged in succcessfully", HttpStatus.FOUND);
+		return new ResponseEntity<String>("Log in failed", HttpStatus.NOT_FOUND);
+	}
+
+	@GetMapping("/users")
+	public ResponseEntity<List<User>> getAllUsers() {
+		List<User> list = userService.getAllUsers();
+		return new ResponseEntity<List<User>>(list, HttpStatus.FOUND);
+	}
 	// User posts starts
 
 	@GetMapping("/user/{userId}/post")
@@ -46,6 +69,7 @@ public class UserController {
 	}
 
 	// User posts ends
+
 	// User Feed starts here
 	@GetMapping("/user/{userId}/feed/{order}")
 	private ResponseEntity<Object> getFeed(@PathVariable int userId, @PathVariable String order) {

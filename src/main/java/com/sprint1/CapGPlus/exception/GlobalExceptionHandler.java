@@ -41,4 +41,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> communityAlreadyExists(CommunityAlreadyExistsException e) {
 		return new ResponseEntity<>("Community already exists", HttpStatus.CONFLICT);
 	}
+	
+	@ExceptionHandler(value = UserNameAlreadyExistsException.class)
+	public ResponseEntity<String> userNameAlreadyExists(UserNameAlreadyExistsException e) {
+		return new ResponseEntity<>("Username already exists!! Try with different username", HttpStatus.CONFLICT);
+	}
 }
