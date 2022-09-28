@@ -17,11 +17,9 @@ public class Community {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
 	private String name;
 	private String description;
 
-//	@JsonIgnore
 	@ManyToMany(mappedBy = "communities")
 	private Set<User> users;
 

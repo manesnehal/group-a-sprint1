@@ -3,12 +3,15 @@ package com.sprint1.CapGPlus.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.sprint1.CapGPlus.dto.PostDTO;
+import com.sprint1.CapGPlus.dto.UserDTO;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.entity.DataHolder;
@@ -41,6 +44,10 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CommentRepository commentRepository;
+	private UserDTOService userDTOService;
+
+	@Autowired
+	private PostDTOService postDTOService;
 
 	PasswordEncoder passwordEncoder;
 
@@ -72,29 +79,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByUserName(String userName) {
-		return userRepository.findByUserName(userName);
+	public UserDTO findByUserName(String userName) {
+		return userDTOService.convertToDTO(userRepository.findByUserName(userName));
 	}
 
 	@Override
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	public List<UserDTO> getAllUsers() {
+		return userRepository.findAll().stream().map(userDTOService::convertToDTO).collect(Collectors.toList());
 	}
 
 	@Override
-	public User getUserbyId(int userId) throws UserNotFoundException {
+	public UserDTO getUserbyId(int userId) throws UserNotFoundException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
-		return userRepository.findById(userId).get();
+		return userDTOService.convertToDTO(userRepository.findById(userId).get());
 	}
 
 	// User post starts
 
 	@Override
-	public List<Post> getAllUserPosts(int userId) throws UserNotFoundException {
+	public List<PostDTO> getAllUserPosts(int userId) throws UserNotFoundException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
-		return userRepository.findById(userId).get().getPosts();
+		return userRepository.findById(userId).get().getPosts().stream().map(postDTOService::convertToDTO)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -207,7 +215,7 @@ public class UserServiceImpl implements UserService {
 	// User post ends
 	// User Feed starts here
 	@Override
-	public List<Post> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException {
+	public List<PostDTO> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException {
 		try {
 			User u = userRepository.findById(userId).get();
 			if (u.getCommunities().isEmpty()) {
@@ -216,10 +224,12 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			throw new UserNotFoundException();
 		}
-		List<Post> p = postRepository.getAllPostsByCommunity(userId);
+		List<PostDTO> p = postRepository.getAllPostsByCommunity(userId).stream().map(postDTOService::convertToDTO)
+				.collect(Collectors.toList());
 		if (p.isEmpty()) {
 			throw new PostUnavailableException();
 		}
+
 		return p;
 	}
 	// User Feed ends here
@@ -260,11 +270,33 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Comment commentOnPost(int postId, int userId, Comment comment) {
 		Post post = postRepository.findById(postId).get();
+		User user = userRepository.findById(userId).get();
+		List<Post> list = userRepository.findById(userId).get().getPosts();
+		list.remove(post);
 		post.getComments().add(comment);
+		list.add(post);
+		user.setPosts(list);
 		postRepository.save(post);
+		userRepository.save(user);
+		comment.setPost(post);
+		comment.setUser(user);
 		return commentRepository.save(comment);
 	}
 
+	@Override
+	public void deleteComment(int postId, int userId, int commentId) {
+		Post post = postRepository.findById(postId).get();
+		User user = userRepository.findById(userId).get();
+		Comment comment = commentRepository.findById(commentId).get();
+		List<Post> list = userRepository.findById(userId).get().getPosts();
+		list.remove(post);
+		post.getComments().remove(comment);
+		list.add(post);
+		user.setPosts(list);
+		postRepository.save(post);
+		userRepository.save(user);
+		commentRepository.deleteById(commentId);
+	}
 	@Override
 	public List<Post> getAllPostsLikedByUser(int userId) {
 		return postRepository.getAllPostsLikedByUser(userId);

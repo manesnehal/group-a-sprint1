@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.Community;
+import com.sprint1.CapGPlus.dto.PostDTO;
+import com.sprint1.CapGPlus.dto.UserDTO;
 import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
@@ -56,8 +58,7 @@ public class UserController {
 	}
 
 	@GetMapping("/user/{userId}/community")
-	private ResponseEntity<List<Community>> getCommunitiesbyUserId(@PathVariable int userId)
-			throws UserNotFoundException {
+	private ResponseEntity<Object> getCommunitiesbyUserId(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(communityService.getCommunitiesbyUserId(userId), HttpStatus.OK);
 	}
 
@@ -78,21 +79,21 @@ public class UserController {
 	}
 
 	@GetMapping("/users")
-	public ResponseEntity<List<User>> getAllUsers() {
-		List<User> list = userService.getAllUsers();
-		return new ResponseEntity<List<User>>(list, HttpStatus.FOUND);
+	public ResponseEntity<List<UserDTO>> getAllUsers() {
+		List<UserDTO> list = userService.getAllUsers();
+		return new ResponseEntity<List<UserDTO>>(list, HttpStatus.FOUND);
 	}
 	// User-Auth ends
 
 	@GetMapping("/user/{userId}")
-	private ResponseEntity<User> getUserById(@PathVariable int userId) throws UserNotFoundException {
+	private ResponseEntity<Object> getUserById(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.getUserbyId(userId), HttpStatus.OK);
 	}
 
 	// User posts starts
 
 	@GetMapping("/user/{userId}/post")
-	private ResponseEntity<List<Post>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
+	private ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.getAllUserPosts(userId), HttpStatus.OK);
 	}
 
@@ -123,7 +124,7 @@ public class UserController {
 	@GetMapping("/user/{userId}/feed")
 	private ResponseEntity<Object> getFeed(@PathVariable int userId)
 			throws UserNotFoundException, PostUnavailableException {
-		List<Post> p = userService.getAllPostsFromCommunities(userId);
+		List<PostDTO> p = userService.getAllPostsFromCommunities(userId);
 		if (p == null) {
 			return new ResponseEntity<Object>("You haven't joined any community", HttpStatus.FOUND);
 		}
@@ -151,6 +152,13 @@ public class UserController {
 			@RequestBody Comment comment) {
 		Comment addedComment = userService.commentOnPost(postId, userId, comment);
 		return new ResponseEntity<Comment>(addedComment, HttpStatus.ACCEPTED);
+	}
+
+	@DeleteMapping("/user/{userId}/post/{postId}/comment/{commentId})")
+	private ResponseEntity<String> deleteComment(@PathVariable int postId, @PathVariable int userId,
+			@PathVariable int commentId) {
+		userService.deleteComment(postId, userId, commentId);
+		return new ResponseEntity<String>("Comment Deleted", HttpStatus.OK);
 	}
 
 	@GetMapping("/user/{userId}/likes")

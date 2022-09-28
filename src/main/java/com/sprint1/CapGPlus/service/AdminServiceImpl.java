@@ -1,11 +1,13 @@
 package com.sprint1.CapGPlus.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprint1.CapGPlus.dto.CommunityDTO;
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
@@ -22,6 +24,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private CommunityRepository communityRepository;
+
+	@Autowired
+	private CommunityDTOService communityDTOService;
 
 	// Admin Auth starts here
 	private void addAdmin() {
@@ -65,15 +70,16 @@ public class AdminServiceImpl implements AdminService {
 	// Admin Community starts
 
 	@Override
-	public List<Community> getAllCommunities() {
-		return communityRepository.findAll();
+	public List<CommunityDTO> getAllCommunities() {
+		return communityRepository.findAll().stream().map(communityDTOService::convertToDTO)
+				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Community getCommunityById(int communityId) throws CommunityNotFoundException {
+	public CommunityDTO getCommunityById(int communityId) throws CommunityNotFoundException {
 		if (!communityRepository.existsById(communityId))
 			throw new CommunityNotFoundException();
-		return communityRepository.findById(communityId).get();
+		return communityDTOService.convertToDTO(communityRepository.findById(communityId).get());
 	}
 
 	@Override
