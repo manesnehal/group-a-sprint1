@@ -80,15 +80,30 @@ public class AdminServiceImpl implements AdminService {
 	public Community addCommunity(Community community) throws CommunityAlreadyExistsException {
 		if (communityRepository.existsById(community.getId()))
 			throw new CommunityAlreadyExistsException();
+
+		// Check if community with that name already exists
+		if (communityRepository.findByCommunityName(community.getName()) != null)
+			throw new CommunityAlreadyExistsException();
+
 		return communityRepository.save(community);
 	}
 
 	@Override
-	public Community editCommunityDetails(int communityId, Community community) throws CommunityNotFoundException {
+	public Community editCommunityDetails(int communityId, Community community)
+			throws CommunityNotFoundException, CommunityAlreadyExistsException {
 		if (!communityRepository.existsById(communityId))
 			throw new CommunityNotFoundException();
-		community.setId(communityId);
-		return communityRepository.save(community);
+
+		Community oldCommunity = communityRepository.findById(communityId).get();
+
+		// Check if community with that name already exists (if name has changed)
+		if (!community.getName().equals(oldCommunity.getName())
+				&& communityRepository.findByCommunityName(community.getName()) != null)
+			throw new CommunityAlreadyExistsException();
+
+		oldCommunity.setName(community.getName());
+		oldCommunity.setDescription(community.getDescription());
+		return communityRepository.save(oldCommunity);
 	}
 
 	// Admin Community ends
