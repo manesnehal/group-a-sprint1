@@ -22,11 +22,11 @@ public class Community {
 
 	private String name;
 	private String description;
-
+	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "communities")
 	private Set<User> users;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "community")
 	private List<Post> posts;
 
