@@ -1,8 +1,21 @@
 package com.sprint1.CapGPlus.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprint1.CapGPlus.entity.Community;
+import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
+import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
+import com.sprint1.CapGPlus.service.CommunityService;
 import com.sprint1.CapGPlus.service.UserService;
 
 @RestController
@@ -10,5 +23,39 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CommunityService communityService;
 
+	// User community starts
+
+//	@GetMapping("/user/{userid}/community")
+//	private ResponseEntity<List<Community>> getAllCommunities() {
+//		return new ResponseEntity<>(userService.getAllCommunities(), HttpStatus.OK);
+//	}
+//
+//	@GetMapping("/user/{userid}/community/{communityId}")
+//	private ResponseEntity<Community> getCommunityById(@PathVariable int communityId)
+//			throws CommunityNotFoundException {
+//		return new ResponseEntity<>(userService.getCommunityById(communityId), HttpStatus.OK);
+//	}
+
+	@PostMapping("/user/{userId}/community/join/{communityId}")
+	private ResponseEntity<Object> joinCommunity(@PathVariable int userId,@PathVariable int communityId)
+			throws CommunityNotFoundException {
+		return new ResponseEntity<>(communityService.joinCommunity(userId, communityId), HttpStatus.OK);
+	}
+
+	@PostMapping("/user/{userid}/community/leave/{communityId}")
+	private ResponseEntity<Object> leaveCommunity(@PathVariable int userId,@PathVariable int communityId)
+			throws CommunityNotFoundException {
+		return new ResponseEntity<>(communityService.leaveCommunity(userId, communityId), HttpStatus.OK);
+	}
+
+	@GetMapping("/user/{userId}/community")
+	private ResponseEntity<List<Community>> getCommunitiesbyUserId(@PathVariable int userId) {
+		return new ResponseEntity<>(communityService.getCommunitiesbyUserId(userId),
+				HttpStatus.OK);
+	}
+
+	// User community ends
 }
