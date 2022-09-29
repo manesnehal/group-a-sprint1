@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprint1.CapGPlus.dto.inner.CommunityDTOInner;
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.entity.Community;
@@ -104,8 +105,8 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 
-	public List<CommunityDTOOuter> getAllCommunities() {
-		return communityRepository.findAll().stream().map(communityDTOService::convertToOuterDTO).collect(Collectors.toList());
+	public List<CommunityDTOInner> getAllCommunities() {
+		return communityRepository.findAll().stream().map(communityDTOService::convertToInnerDTO).collect(Collectors.toList());
 	}
 	
 	public CommunityDTOOuter getCommunitybyCommunityId(int communityId) throws CommunityNotFoundException {

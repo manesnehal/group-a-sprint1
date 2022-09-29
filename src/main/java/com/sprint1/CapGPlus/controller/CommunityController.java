@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprint1.CapGPlus.dto.inner.CommunityDTOInner;
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
@@ -20,7 +21,7 @@ public class CommunityController {
 	private CommunityService communityService;
 
 	@GetMapping("/community")
-	private ResponseEntity<List<CommunityDTOOuter>> getAllCommunities() {
+	private ResponseEntity<List<CommunityDTOInner>> getAllCommunities() {
 		return new ResponseEntity<>(communityService.getAllCommunities(),HttpStatus.OK);
 	}
 	
