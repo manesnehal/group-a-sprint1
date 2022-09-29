@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.entity.Community;
-import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
@@ -22,10 +21,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostDTOService postDTOService;
-	
+
 	@Autowired
 	private CommunityRepository communityRepository;
-
 
 	@Override
 	public List<PostDTOOuter> getAllPosts() {
@@ -40,17 +38,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDTOOuter> getPostByCommunity(int comId)
-			throws  CommunityNotFoundException {
-		/*if (!postRepository.existsById(postId))
-			throw new PostNotFoundException();*/
+	public List<PostDTOOuter> getPostByCommunity(int comId) throws CommunityNotFoundException {
 		if (!communityRepository.existsById(comId))
 			throw new CommunityNotFoundException();
-		
-		Community community= communityRepository.findById(comId).get();
+
+		Community community = communityRepository.findById(comId).get();
 		return community.getPosts().stream().map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
-		 //return postDTOService.c
-		//Community community = post.getCommunity();
-	    
 	}
 }
