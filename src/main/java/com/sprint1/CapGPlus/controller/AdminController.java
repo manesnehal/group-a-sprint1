@@ -1,5 +1,7 @@
 package com.sprint1.CapGPlus.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +26,13 @@ public class AdminController {
 
 	// Admin Auth starts here
 	@PostMapping("/admin/login")
-	private ResponseEntity<Object> adminLogin(@RequestBody Admin pass) throws InvalidCredentialsException {
+	private ResponseEntity<Object> adminLogin(@Valid @RequestBody Admin pass) throws InvalidCredentialsException {
 		String msg = adminService.adminLogin(pass);
 		return new ResponseEntity<Object>(msg, HttpStatus.ACCEPTED);
 	}
 
 	@PutMapping("/admin/update")
-	private ResponseEntity<Object> passwordUpdate(@RequestBody Admin a)
+	private ResponseEntity<Object> passwordUpdate(@Valid @RequestBody Admin a)
 			throws InvalidCredentialsException, PasswordMatchException {
 		String msg = adminService.updatePassword(a);
 		return new ResponseEntity<Object>(msg, HttpStatus.OK);
@@ -38,17 +40,6 @@ public class AdminController {
 	// Admin Auth ends here
 
 	// Admin community starts
-
-//	@GetMapping("/admin/community")
-//	private ResponseEntity<List<CommunityDTO>> getAllCommunities() {
-//		return new ResponseEntity<>(adminService.getAllCommunities(), HttpStatus.OK);
-//	}
-//
-//	@GetMapping("/admin/community/{communityId}")
-//	private ResponseEntity<CommunityDTO> getCommunityById(@PathVariable int communityId)
-//			throws CommunityNotFoundException {
-//		return new ResponseEntity<>(adminService.getCommunityById(communityId), HttpStatus.OK);
-//	}
 
 	@PostMapping("/admin/community")
 	private ResponseEntity<Community> addNewCommunity(@RequestBody Community community)
