@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sprint1.CapGPlus.dto.PostDTO;
+import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.service.PostService;
 
 @RestController
@@ -19,7 +19,7 @@ public class PostController {
 
 	@GetMapping("/post")
 	public ResponseEntity<Object> getAllPosts() {
-		List<PostDTO> list = postService.getAllPosts();
+		List<PostDTOOuter> list = postService.getAllPosts();
 		return new ResponseEntity<Object>(list, HttpStatus.FOUND);
 	}
 

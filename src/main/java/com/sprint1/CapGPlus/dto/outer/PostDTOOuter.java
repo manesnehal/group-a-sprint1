@@ -1,16 +1,16 @@
-package com.sprint1.CapGPlus.dto;
+package com.sprint1.CapGPlus.dto.outer;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-public class PostDTO {
+public class PostDTOOuter {
 	private int id;
 	private String title;
 	private String content;
 	private LocalDateTime postedAt;
 	private UserDTO user;
-	private CommunityDTO community;
+	private CommunityDTOOuter community;
 	private Set<UserDTO> likedBy;
 	private List<CommentDTO> comments;
 
@@ -54,11 +54,11 @@ public class PostDTO {
 		this.user = user;
 	}
 
-	public CommunityDTO getCommunity() {
+	public CommunityDTOOuter getCommunity() {
 		return community;
 	}
 
-	public void setCommunity(CommunityDTO community) {
+	public void setCommunity(CommunityDTOOuter community) {
 		this.community = community;
 	}
 

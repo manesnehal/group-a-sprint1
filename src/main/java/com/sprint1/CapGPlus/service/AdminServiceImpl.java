@@ -7,7 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sprint1.CapGPlus.dto.CommunityDTO;
+import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
@@ -16,6 +16,7 @@ import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PasswordMatchException;
 import com.sprint1.CapGPlus.repository.AdminRepository;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
+import com.sprint1.CapGPlus.service.dto.CommunityDTOService;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -70,13 +71,13 @@ public class AdminServiceImpl implements AdminService {
 	// Admin Community starts
 
 	@Override
-	public List<CommunityDTO> getAllCommunities() {
+	public List<CommunityDTOOuter> getAllCommunities() {
 		return communityRepository.findAll().stream().map(communityDTOService::convertToDTO)
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public CommunityDTO getCommunityById(int communityId) throws CommunityNotFoundException {
+	public CommunityDTOOuter getCommunityById(int communityId) throws CommunityNotFoundException {
 		if (!communityRepository.existsById(communityId))
 			throw new CommunityNotFoundException();
 		return communityDTOService.convertToDTO(communityRepository.findById(communityId).get());

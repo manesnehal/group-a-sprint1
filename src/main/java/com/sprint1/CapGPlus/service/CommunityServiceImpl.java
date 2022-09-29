@@ -6,13 +6,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sprint1.CapGPlus.dto.CommunityDTO;
+import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
 import com.sprint1.CapGPlus.repository.UserRepository;
+import com.sprint1.CapGPlus.service.dto.CommunityDTOService;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -88,10 +89,10 @@ public class CommunityServiceImpl implements CommunityService {
 		return "You can no longer post to " + community.getName();
 	}
 
-	public Set<CommunityDTO> getCommunitiesbyUserId(int userId) throws UserNotFoundException {
+	public Set<CommunityDTOOuter> getCommunitiesbyUserId(int userId) throws UserNotFoundException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
-		Set<CommunityDTO> c = userRepository.findById(userId).get().getCommunities().stream()
+		Set<CommunityDTOOuter> c = userRepository.findById(userId).get().getCommunities().stream()
 				.map(communityDTOService::convertToDTO).collect(Collectors.toSet());
 		return c;
 	}

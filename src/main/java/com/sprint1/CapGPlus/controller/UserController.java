@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sprint1.CapGPlus.dto.PostDTO;
-import com.sprint1.CapGPlus.dto.UserDTO;
+import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
+import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
@@ -90,7 +90,7 @@ public class UserController {
 	// User posts starts
 
 	@GetMapping("/user/{userId}/post")
-	private ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
+	private ResponseEntity<List<PostDTOOuter>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.getAllUserPosts(userId), HttpStatus.OK);
 	}
 
@@ -121,7 +121,7 @@ public class UserController {
 	@GetMapping("/user/{userId}/feed")
 	private ResponseEntity<Object> getFeed(@PathVariable int userId)
 			throws UserNotFoundException, PostUnavailableException {
-		List<PostDTO> p = userService.getAllPostsFromCommunities(userId);
+		List<PostDTOOuter> p = userService.getAllPostsFromCommunities(userId);
 		if (p == null) {
 			return new ResponseEntity<Object>("You haven't joined any community", HttpStatus.FOUND);
 		}
@@ -142,11 +142,6 @@ public class UserController {
 			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
 		userService.unlikeAPost(userId, postId);
 		return new ResponseEntity<String>("You have unliked the post", HttpStatus.ACCEPTED);
-	}
-
-	@GetMapping("/user/{userId}/likes")
-	private ResponseEntity<List<Post>> getAllPostsLikedByUser(@PathVariable int userId) {
-		return new ResponseEntity<>(userService.getAllPostsLikedByUser(userId), HttpStatus.OK);
 	}
 
 	// User like ends

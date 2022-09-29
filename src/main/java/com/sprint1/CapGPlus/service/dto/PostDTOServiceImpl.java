@@ -1,9 +1,9 @@
-package com.sprint1.CapGPlus.service;
+package com.sprint1.CapGPlus.service.dto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sprint1.CapGPlus.dto.PostDTO;
+import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.entity.Post;
 
 @Service
@@ -16,8 +16,8 @@ public class PostDTOServiceImpl implements PostDTOService {
 	private CommunityDTOService communityDTOService;
 
 	@Override
-	public PostDTO convertToDTO(Post post) {
-		PostDTO p = new PostDTO();
+	public PostDTOOuter convertToDTO(Post post) {
+		PostDTOOuter p = new PostDTOOuter();
 		p.setId(p.getId());
 		p.setTitle(post.getTitle());
 		p.setContent(post.getContent());

@@ -10,8 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.sprint1.CapGPlus.dto.PostDTO;
-import com.sprint1.CapGPlus.dto.UserDTO;
+import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
+import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.entity.DataHolder;
@@ -28,6 +28,8 @@ import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
 import com.sprint1.CapGPlus.repository.PostRepository;
 import com.sprint1.CapGPlus.repository.UserRepository;
+import com.sprint1.CapGPlus.service.dto.PostDTOService;
+import com.sprint1.CapGPlus.service.dto.UserDTOService;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -96,7 +98,7 @@ public class UserServiceImpl implements UserService {
 	// User post starts
 
 	@Override
-	public List<PostDTO> getAllUserPosts(int userId) throws UserNotFoundException {
+	public List<PostDTOOuter> getAllUserPosts(int userId) throws UserNotFoundException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		return userRepository.findById(userId).get().getPosts().stream().map(postDTOService::convertToDTO)
@@ -213,7 +215,7 @@ public class UserServiceImpl implements UserService {
 	// User post ends
 	// User Feed starts here
 	@Override
-	public List<PostDTO> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException {
+	public List<PostDTOOuter> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException {
 		try {
 			User u = userRepository.findById(userId).get();
 			if (u.getCommunities().isEmpty()) {
@@ -222,7 +224,7 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			throw new UserNotFoundException();
 		}
-		List<PostDTO> p = postRepository.getAllPostsByCommunity(userId).stream().map(postDTOService::convertToDTO)
+		List<PostDTOOuter> p = postRepository.getAllPostsByCommunity(userId).stream().map(postDTOService::convertToDTO)
 				.collect(Collectors.toList());
 		if (p.isEmpty()) {
 			throw new PostUnavailableException();
