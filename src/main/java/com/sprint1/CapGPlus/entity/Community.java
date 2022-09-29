@@ -10,8 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "community")
@@ -19,10 +18,14 @@ public class Community {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@NotEmpty(message = "Community name is required")
 	private String name;
+
+	@NotEmpty(message = "Community description is required")
 	private String description;
-	
-	@JsonBackReference
+
+//	@JsonBackReference
 	@ManyToMany(mappedBy = "communities")
 	private Set<User> users;
 

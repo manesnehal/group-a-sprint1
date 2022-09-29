@@ -42,14 +42,15 @@ public class AdminController {
 	// Admin community starts
 
 	@PostMapping("/admin/community")
-	private ResponseEntity<Community> addNewCommunity(@RequestBody Community community)
+	private ResponseEntity<Community> addNewCommunity(@Valid @RequestBody Community community)
 			throws CommunityAlreadyExistsException {
 		return new ResponseEntity<>(adminService.addCommunity(community), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/admin/community/{communityId}")
 	private ResponseEntity<Community> editCommunityDetails(@PathVariable int communityId,
-			@RequestBody Community community) throws CommunityNotFoundException, CommunityAlreadyExistsException {
+			@Valid @RequestBody Community community)
+			throws CommunityNotFoundException, CommunityAlreadyExistsException {
 		return new ResponseEntity<>(adminService.editCommunityDetails(communityId, community), HttpStatus.OK);
 	}
 
