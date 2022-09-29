@@ -96,7 +96,7 @@ public class AdminServiceImpl implements AdminService {
 
 		return communityRepository.save(community);
 	}
-
+	
 	@Override
 	public Community editCommunityDetails(int communityId, Community community)
 			throws CommunityNotFoundException, CommunityAlreadyExistsException {
@@ -114,6 +114,14 @@ public class AdminServiceImpl implements AdminService {
 		oldCommunity.setDescription(community.getDescription());
 		return communityRepository.save(oldCommunity);
 	}
+
+	@Override
+	public String deleteCommunitybyCommunityId(int communityId) {
+		// TODO Auto-generated method stub
+		return "This service is not yet available, implementation underprogress";
+	}
+
+
 
 	// Admin Community ends
 

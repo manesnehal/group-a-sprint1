@@ -5,12 +5,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
@@ -52,6 +55,12 @@ public class AdminController {
 			@Valid @RequestBody Community community)
 			throws CommunityNotFoundException, CommunityAlreadyExistsException {
 		return new ResponseEntity<>(adminService.editCommunityDetails(communityId, community), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/community/{communityId}")
+	private ResponseEntity<Object> deleteCommunitybyCommunityId(@PathVariable int communityId)
+			throws CommunityNotFoundException {
+		return new ResponseEntity<>(adminService.deleteCommunitybyCommunityId(communityId), HttpStatus.OK);
 	}
 
 	// Admin community ends
