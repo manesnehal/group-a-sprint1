@@ -11,25 +11,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.dto.outer.CommentDTO;
 import com.sprint1.CapGPlus.entity.Comment;
+import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
+import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.service.CommentService;
 
 @RestController
 public class CommentController {
-	
+
 	@Autowired
 	private CommentService commentService;
-	
+
 	@GetMapping("/user/{userId}/comments")
-	private ResponseEntity<List<CommentDTO>> getAllCommentsByUser(@PathVariable int userId) throws UserNotFoundException{
+	private ResponseEntity<List<CommentDTO>> getAllCommentsByUser(@PathVariable int userId)
+			throws UserNotFoundException, CommentDoesNotExistException {
 		List<CommentDTO> list = commentService.getAllCommentsByUser(userId);
-		return new ResponseEntity<List<CommentDTO>>(list,HttpStatus.FOUND);
+		return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.FOUND);
 	}
-	
 
 	@GetMapping("/post/{postId}/comments")
-	private ResponseEntity<List<CommentDTO>> getAllCommentsOnAPost(@PathVariable int postId){
+	private ResponseEntity<List<CommentDTO>> getAllCommentsOnAPost(@PathVariable int postId)
+			throws CommentDoesNotExistException, PostNotFoundException {
 		List<CommentDTO> list = commentService.getAllCommentsOnAPost(postId);
-		return new ResponseEntity<List<CommentDTO>>(list,HttpStatus.FOUND);
+		return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.FOUND);
 	}
 }

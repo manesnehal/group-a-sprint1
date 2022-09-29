@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.dto.outer.CommentDTO;
 import com.sprint1.CapGPlus.entity.Comment;
+import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
+import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.repository.CommentRepository;
 import com.sprint1.CapGPlus.repository.PostRepository;
@@ -29,23 +31,24 @@ public class CommentServiceImpl implements CommentService {
 	private PostRepository postRepository;
 
 	@Override
-	public List<CommentDTO> getAllCommentsByUser(int userId) throws UserNotFoundException {
+	public List<CommentDTO> getAllCommentsByUser(int userId) throws UserNotFoundException, CommentDoesNotExistException {
 		if(!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		List<Comment> list = commentRepository.getAllCommentsByUser(userId);
 		if(list.isEmpty())
-			throw new UserNotFoundException();
+			throw new CommentDoesNotExistException();
 		return commentRepository.getAllCommentsByUser(userId).stream().map(commentDTOService::convertToDTO)
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public List<CommentDTO> getAllCommentsOnAPost(int postId) {
+	public List<CommentDTO> getAllCommentsOnAPost(int postId)
+			throws CommentDoesNotExistException, PostNotFoundException {
 		if(!postRepository.existsById(postId))
-			throw new UserNotFoundException();
-		List<Comment> list = commentRepository.getAllCommentsByUser(userId);
+			throw new PostNotFoundException();
+		List<Comment> list = commentRepository.getAllCommentsOnAPost(postId);
 		if(list.isEmpty())
-			throw new UserNotFoundException();
+			throw new CommentDoesNotExistException();
 		return commentRepository.getAllCommentsOnAPost(postId).stream().map(commentDTOService::convertToDTO)
 				.collect(Collectors.toList());
 	}
