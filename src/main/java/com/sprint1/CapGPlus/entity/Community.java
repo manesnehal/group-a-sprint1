@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "community")
@@ -19,10 +19,10 @@ public class Community {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@NotEmpty(message = "Community name is required")
+	@NotBlank(message = "Community name is required")
 	private String name;
 
-	@NotEmpty(message = "Community description is required")
+	@NotBlank(message = "Community description is required")
 	private String description;
 
 //	@JsonBackReference
