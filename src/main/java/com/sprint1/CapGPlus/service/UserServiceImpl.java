@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
@@ -283,6 +286,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Comment commentOnPost(int postId, int userId, Comment comment)
 			throws PostNotFoundException, UserNotFoundException {
+		System.out.println(userId);
+		System.out.println(postId);
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		if (!postRepository.existsById(postId))

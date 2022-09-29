@@ -30,7 +30,7 @@ public class PostDTOServiceImpl implements PostDTOService {
 		p.setPostedAt(post.getPostedAt());
 		p.setUser(userDTOService.convertToDTO(post.getUser()));
 		p.setCommunity(communityDTOService.convertToInnerDTO(post.getCommunity()));
-//		p.setLikedBy();
+		// p.setLikedBy();
 		p.setComments(post.getComments().stream().map(commentDTOService::convertToDTO).collect(Collectors.toList()));
 		return p;
 	}
