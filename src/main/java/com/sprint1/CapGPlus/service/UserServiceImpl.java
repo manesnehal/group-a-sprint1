@@ -286,8 +286,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Comment commentOnPost(int postId, int userId, Comment comment)
 			throws PostNotFoundException, UserNotFoundException {
-		System.out.println(userId);
-		System.out.println(postId);
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		if (!postRepository.existsById(postId))

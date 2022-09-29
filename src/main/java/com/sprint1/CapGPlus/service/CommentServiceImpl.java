@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprint1.CapGPlus.dto.outer.CommentDTO;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.repository.CommentRepository;
 
@@ -14,7 +15,7 @@ public class CommentServiceImpl implements CommentService {
 	private CommentRepository commentRepository;
 
 	@Override
-	public List<Comment> getAllCommentsByUser(int userId) {
+	public List<CommentDTO> getAllCommentsByUser(int userId) {
 		return commentRepository.getAllCommentsByUser(userId);
 	}
 }

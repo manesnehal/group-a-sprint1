@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.sprint1.CapGPlus.dto.outer.CommentDTO;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.User;
 
@@ -14,5 +15,5 @@ import com.sprint1.CapGPlus.entity.User;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
 	@Query(value = "select * from comment where user_id = :userId", nativeQuery = true)
-	public List<Comment> getAllCommentsByUser(@Param("userId") int userId);
+	public List<CommentDTO> getAllCommentsByUser(@Param("userId") int userId);
 }
