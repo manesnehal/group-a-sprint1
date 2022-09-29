@@ -14,6 +14,6 @@ import com.sprint1.CapGPlus.entity.User;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-	@Query(value = "select * from comment where user_id = :userId", nativeQuery = true)
-	public List<CommentDTO> getAllCommentsByUser(@Param("userId") int userId);
+	@Query(value = "select * from comment where user_id = :ID", nativeQuery = true)
+	public Comment getAllCommentsByUser(@Param("ID") int userId);
 }
