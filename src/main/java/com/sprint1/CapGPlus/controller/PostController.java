@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
+import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.service.PostService;
 
@@ -26,10 +27,17 @@ public class PostController {
 	}
 
 	
+	
 	@GetMapping("/post/{postId}")
 	private ResponseEntity<Object> getPostById(@PathVariable int postId)
 			throws PostNotFoundException {
 		return new ResponseEntity<>(postService.getPostById(postId), HttpStatus.OK);
+	}
+	
+	@GetMapping("/post/community/{comId}")
+	private ResponseEntity<List<PostDTOOuter>> getPostByCommunity(@PathVariable int comId)
+			throws CommunityNotFoundException {
+		return new ResponseEntity<>(postService.getPostByCommunity(comId), HttpStatus.OK);
 	}
 	/*
 	 * @GetMapping("/posts") private ResponseEntity<List<Post>> getAllPosts(){
