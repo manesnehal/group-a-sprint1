@@ -1,8 +1,12 @@
 package com.sprint1.CapGPlus.service;
 
+import java.util.List;
 import java.util.Set;
 
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
+import com.sprint1.CapGPlus.dto.outer.UserDTO;
+import com.sprint1.CapGPlus.entity.Community;
+import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 
@@ -15,6 +19,12 @@ public interface CommunityService {
 	String leaveCommunity(int userId, int communityId) throws CommunityNotFoundException, UserNotFoundException;
 
 	Set<CommunityDTOOuter> getCommunitiesbyUserId(int userId) throws UserNotFoundException;
+
+	List<CommunityDTOOuter> getAllCommunities();
+
+	CommunityDTOOuter getCommunitybyCommunityId(int communityId) throws CommunityNotFoundException;
+
+	List<UserDTO> getUsersinCommunityId(int communityId) throws CommunityNotFoundException;
 
 	// User community ends
 

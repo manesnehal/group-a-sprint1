@@ -1,5 +1,6 @@
 package com.sprint1.CapGPlus.service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
+import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
@@ -14,6 +16,7 @@ import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
 import com.sprint1.CapGPlus.repository.UserRepository;
 import com.sprint1.CapGPlus.service.dto.CommunityDTOService;
+import com.sprint1.CapGPlus.service.dto.UserDTOService;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -26,6 +29,9 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Autowired
 	private CommunityDTOService communityDTOService;
+
+	@Autowired
+	private UserDTOService userDTOService;
 
 	// User Community starts
 
@@ -96,6 +102,26 @@ public class CommunityServiceImpl implements CommunityService {
 				.map(communityDTOService::convertToOuterDTO).collect(Collectors.toSet());
 		return c;
 	}
+
+
+	public List<CommunityDTOOuter> getAllCommunities() {
+		return communityRepository.findAll().stream().map(communityDTOService::convertToOuterDTO).collect(Collectors.toList());
+	}
+	
+	public CommunityDTOOuter getCommunitybyCommunityId(int communityId) throws CommunityNotFoundException {
+		if (!communityRepository.existsById(communityId))
+			throw new CommunityNotFoundException();		
+		return communityDTOService.convertToOuterDTO(communityRepository.findById(communityId).get());
+	}
+
+
+	public List<UserDTO> getUsersinCommunityId(int communityId) throws CommunityNotFoundException {
+		if (!communityRepository.existsById(communityId))
+			throw new CommunityNotFoundException();		
+		return communityRepository.findById(communityId).get().getUsers().stream().map(userDTOService::convertToDTO).collect(Collectors.toList());
+	}
+
+
 
 	// User Community ends
 }
