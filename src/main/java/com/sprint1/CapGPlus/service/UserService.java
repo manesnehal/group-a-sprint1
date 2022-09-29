@@ -10,6 +10,7 @@ import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
 import com.sprint1.CapGPlus.exception.ActionRepititionException;
+import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
@@ -55,7 +56,12 @@ public interface UserService {
 	public List<PostDTOOuter> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException;
 	// User Feed ends here
 
-	public Post commentOnPost(int userId, int postId, Comment comment);
+	public Comment commentOnPost(int postId, int UserId, Comment comment)
+			throws PostNotFoundException, UserNotFoundException;
+
+	public void deleteComment(int postId, int userId, int commentId)
+			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException,
+			CommentDoesNotExistException;
 
 	public List<Post> getAllPostsLikedByUser(int userId);
 }

@@ -18,6 +18,11 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	private PostDTOService postDTOService;
 
+	/*
+	 * @Override public List<Post> getAllPosts() { return postRepository.findAll();
+	 * }
+	 */
+
 	@Override
 	public List<PostDTOOuter> getAllPosts() {
 		return postRepository.findAll().stream().map(postDTOService::convertToDTO).collect(Collectors.toList());

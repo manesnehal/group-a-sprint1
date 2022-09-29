@@ -66,5 +66,8 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>("You have already liked the post. You cannot like again.", HttpStatus.CONFLICT);
 	}
 
-
+	@ExceptionHandler(value = CommentDoesNotExistException.class)
+	public ResponseEntity<String> CommentDoesNotExist(CommentDoesNotExistException e) {
+		return new ResponseEntity<>("Comment not found", HttpStatus.CONFLICT);
+	}
 }
