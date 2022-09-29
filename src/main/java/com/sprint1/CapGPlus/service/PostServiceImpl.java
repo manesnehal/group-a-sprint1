@@ -29,11 +29,10 @@ public class PostServiceImpl implements PostService {
 		return postRepository.findAll().stream().map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
 	}
 
-	
 	@Override
 	public PostDTOOuter getPostById(int postId) throws PostNotFoundException {
 		if (!postRepository.existsById(postId))
 			throw new PostNotFoundException();
-		return postDTOService.convertToDTO(postRepository.findById(postId).get());
+		return postDTOService.convertToOuterDTO(postRepository.findById(postId).get());
 	}
 }
