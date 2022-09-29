@@ -63,5 +63,5 @@ public interface UserService {
 	public void deleteComment(int postId, int userId, int commentId) throws UserNotFoundException,
 			PostNotFoundException, ActionNotAllowedException, CommentDoesNotExistException;
 
-	public List<PostDTOOuter> getAllPostsLikedByUser(int userId);
+	public List<PostDTOOuter> getAllPostsLikedByUser(int userId) throws UserNotFoundException;
 }
