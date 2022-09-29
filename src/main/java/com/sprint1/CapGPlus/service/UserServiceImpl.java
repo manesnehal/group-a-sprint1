@@ -306,7 +306,7 @@ public class UserServiceImpl implements UserService {
 		Post post = postRepository.findById(postId).get();
 		User user = userRepository.findById(userId).get();
 		Comment comment = commentRepository.findById(commentId).get();
-		if (post.getUser().getId() != user.getId() || comment.getPost().getId() != post.getId())
+		if (comment.getUser().getId() != userId || comment.getPost().getId() != postId)
 			throw new ActionNotAllowedException();
 		List<Post> list = userRepository.findById(userId).get().getPosts();
 		list.remove(post);
