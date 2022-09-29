@@ -56,6 +56,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public String updatePassword(Admin a) throws InvalidCredentialsException, PasswordMatchException {
 		Admin admin = adRepo.findAll().get(0);
+		// Check if new password is same as old password
+		// If same, throw exception
 		if (BCrypt.checkpw(a.getPassword(), admin.getPassword())) {
 			throw new PasswordMatchException();
 		}
