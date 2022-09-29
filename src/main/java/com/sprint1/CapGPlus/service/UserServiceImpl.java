@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Post createPost(int userId, Post post, int communityId)
+	public PostDTOOuter createPost(int userId, Post post, int communityId)
 
 			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException {
 		// Check if user exists
@@ -152,8 +152,7 @@ public class UserServiceImpl implements UserService {
 		// Save post, user and community
 		userRepository.save(user);
 		communityRepository.save(community);
-		return postRepository.save(post);
-//		return postDTOService.convertToOuterDTO(postRepository.save(post));
+		return postDTOService.convertToOuterDTO(postRepository.save(post));
 	}
 
 	@Override
@@ -197,7 +196,7 @@ public class UserServiceImpl implements UserService {
 	 */
 
 	@Override
-	public Post editPost(int userId, int postId, Post post)
+	public PostDTOOuter editPost(int userId, int postId, Post post)
 			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
 		// Check if user exists
 		// TODO JWT AUTH if (!userRepository.existsById(post.getUser().getId()))
@@ -223,8 +222,7 @@ public class UserServiceImpl implements UserService {
 		// Set updated title and content in the post already present in the repository
 		oldPost.setTitle(post.getTitle());
 		oldPost.setContent(post.getContent());
-		return postRepository.save(oldPost);
-//		return postDTOService.convertToOuterDTO(postRepository.save(oldPost));
+		return postDTOService.convertToOuterDTO(postRepository.save(oldPost));
 	}
 
 	// User post ends
