@@ -1,5 +1,6 @@
 package com.sprint1.CapGPlus.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,20 +24,21 @@ public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	private CommentDTOService commentDTOService;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private PostRepository postRepository;
 
 	@Override
-	public List<CommentDTO> getAllCommentsByUser(int userId) throws UserNotFoundException, CommentDoesNotExistException {
-		if(!userRepository.existsById(userId))
+	public List<CommentDTO> getAllCommentsByUser(int userId)
+			throws UserNotFoundException, CommentDoesNotExistException {
+		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		List<Comment> list = commentRepository.getAllCommentsByUser(userId);
-		if(list.isEmpty())
-			throw new CommentDoesNotExistException();
+		if (list.isEmpty())
+			return new ArrayList<CommentDTO>();
 		return commentRepository.getAllCommentsByUser(userId).stream().map(commentDTOService::convertToDTO)
 				.collect(Collectors.toList());
 	}
@@ -44,11 +46,11 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<CommentDTO> getAllCommentsOnAPost(int postId)
 			throws CommentDoesNotExistException, PostNotFoundException {
-		if(!postRepository.existsById(postId))
+		if (!postRepository.existsById(postId))
 			throw new PostNotFoundException();
 		List<Comment> list = commentRepository.getAllCommentsOnAPost(postId);
-		if(list.isEmpty())
-			throw new CommentDoesNotExistException();
+		if (list.isEmpty())
+			return new ArrayList<CommentDTO>();
 		return commentRepository.getAllCommentsOnAPost(postId).stream().map(commentDTOService::convertToDTO)
 				.collect(Collectors.toList());
 	}
