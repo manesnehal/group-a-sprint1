@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sprint1.CapGPlus.entity.Post;
+import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.service.UserService;
 
 @RestController
@@ -18,7 +18,7 @@ public class LikeController {
 	private UserService userService;
 
 	@GetMapping("/user/{userId}/likes")
-	private ResponseEntity<List<Post>> getAllPostsLikedByUser(@PathVariable int userId) {
-		return new ResponseEntity<>(userService.getAllPostsLikedByUser(userId), HttpStatus.OK);
+	private ResponseEntity<List<PostDTOOuter>> getAllPostsLikedByUser(@PathVariable int userId) {
+		return new ResponseEntity<List<PostDTOOuter>>(userService.getAllPostsLikedByUser(userId), HttpStatus.OK);
 	}
 }

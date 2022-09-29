@@ -47,6 +47,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CommentRepository commentRepository;
+
+	@Autowired
 	private UserDTOService userDTOService;
 
 	@Autowired
@@ -104,7 +106,7 @@ public class UserServiceImpl implements UserService {
 	public List<PostDTOOuter> getAllUserPosts(int userId) throws UserNotFoundException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
-		return userRepository.findById(userId).get().getPosts().stream().map(postDTOService::convertToDTO)
+		return userRepository.findById(userId).get().getPosts().stream().map(postDTOService::convertToOuterDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -183,6 +185,12 @@ public class UserServiceImpl implements UserService {
 		// Delete post
 		postRepository.deleteById(postId);
 	}
+	/*@Override
+	public UserDTOOuter getUserbyId(int userId) throws UserNotFoundException {
+		if (!userRepository.existsById(userId))
+			throw new PostNotFoundException();
+		return userDTOService.convertToDTO(userRepository.findById(userId).get());
+	}*/
 
 	@Override
 	public Post editPost(int userId, int postId, Post post)
@@ -218,7 +226,8 @@ public class UserServiceImpl implements UserService {
 	// User post ends
 	// User Feed starts here
 	@Override
-	public List<PostDTOOuter> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException {
+	public List<PostDTOOuter> getAllPostsFromCommunities(int userId)
+			throws UserNotFoundException, PostUnavailableException {
 		try {
 			User u = userRepository.findById(userId).get();
 			if (u.getCommunities().isEmpty()) {
@@ -227,8 +236,8 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			throw new UserNotFoundException();
 		}
-		List<PostDTOOuter> p = postRepository.getAllPostsByCommunity(userId).stream().map(postDTOService::convertToDTO)
-				.collect(Collectors.toList());
+		List<PostDTOOuter> p = postRepository.getAllPostsByCommunity(userId).stream()
+				.map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
 		if (p.isEmpty()) {
 			throw new PostUnavailableException();
 		}
@@ -321,7 +330,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Post> getAllPostsLikedByUser(int userId) {
-		return postRepository.getAllPostsLikedByUser(userId);
+	public List<PostDTOOuter> getAllPostsLikedByUser(int userId) {
+		return postRepository.getAllPostsLikedByUser(userId).stream().map(postDTOService::convertToOuterDTO)
+				.collect(Collectors.toList());
 	}
 }

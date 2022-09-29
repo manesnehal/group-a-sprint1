@@ -4,13 +4,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+import com.sprint1.CapGPlus.dto.inner.CommunityDTOInner;
+
 public class PostDTOOuter {
 	private int id;
 	private String title;
 	private String content;
 	private LocalDateTime postedAt;
 	private UserDTO user;
-	private CommunityDTOOuter community;
+	private CommunityDTOInner community;
 	private Set<UserDTO> likedBy;
 	private List<CommentDTO> comments;
 
@@ -54,11 +56,11 @@ public class PostDTOOuter {
 		this.user = user;
 	}
 
-	public CommunityDTOOuter getCommunity() {
+	public CommunityDTOInner getCommunity() {
 		return community;
 	}
 
-	public void setCommunity(CommunityDTOOuter community) {
+	public void setCommunity(CommunityDTOInner community) {
 		this.community = community;
 	}
 

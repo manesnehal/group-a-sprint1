@@ -53,15 +53,15 @@ public interface UserService {
 	// User post ends
 
 	// User Feed starts here
-	public List<PostDTOOuter> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException;
+	public List<PostDTOOuter> getAllPostsFromCommunities(int userId)
+			throws UserNotFoundException, PostUnavailableException;
 	// User Feed ends here
 
 	public Comment commentOnPost(int postId, int UserId, Comment comment)
 			throws PostNotFoundException, UserNotFoundException;
 
-	public void deleteComment(int postId, int userId, int commentId)
-			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException,
-			CommentDoesNotExistException;
+	public void deleteComment(int postId, int userId, int commentId) throws UserNotFoundException,
+			PostNotFoundException, ActionNotAllowedException, CommentDoesNotExistException;
 
-	public List<Post> getAllPostsLikedByUser(int userId);
+	public List<PostDTOOuter> getAllPostsLikedByUser(int userId);
 }
