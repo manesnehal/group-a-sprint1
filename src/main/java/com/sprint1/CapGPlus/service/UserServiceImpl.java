@@ -25,6 +25,7 @@ import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
+import com.sprint1.CapGPlus.exception.NotAPartOfCommunityException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
@@ -284,13 +285,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Comment commentOnPost(int postId, int userId, Comment comment)
-			throws PostNotFoundException, UserNotFoundException {
+			throws PostNotFoundException, UserNotFoundException, NotAPartOfCommunityException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		if (!postRepository.existsById(postId))
 			throw new PostNotFoundException();
 		Post post = postRepository.findById(postId).get();
 		User user = userRepository.findById(userId).get();
+		if(!user.getCommunities().contains(post))
+			throw new NotAPartOfCommunityException();
 		List<Post> list = userRepository.findById(userId).get().getPosts();
 		list.remove(post);
 		List<Comment> l = post.getComments();

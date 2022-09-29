@@ -13,6 +13,7 @@ import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
+import com.sprint1.CapGPlus.exception.NotAPartOfCommunityException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
@@ -58,7 +59,7 @@ public interface UserService {
 	// User Feed ends here
 
 	public Comment commentOnPost(int postId, int UserId, Comment comment)
-			throws PostNotFoundException, UserNotFoundException;
+			throws PostNotFoundException, UserNotFoundException, NotAPartOfCommunityException;
 
 	public void deleteComment(int postId, int userId, int commentId) throws UserNotFoundException,
 			PostNotFoundException, ActionNotAllowedException, CommentDoesNotExistException;

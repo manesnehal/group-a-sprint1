@@ -80,6 +80,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<String> CommentDoesNotExist(CommentDoesNotExistException e) {
 		return new ResponseEntity<>("Comment not found", HttpStatus.CONFLICT);
 	}
+	
+	@ExceptionHandler(value = NotAPartOfCommunityException.class)
+	public ResponseEntity<String> NotAPartOfCommunity(NotAPartOfCommunityException e) {
+		return new ResponseEntity<>("You are not a part of this community", HttpStatus.CONFLICT);
+	}
+
 
 	// Validation exception
 	@Override

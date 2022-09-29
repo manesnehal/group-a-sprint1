@@ -26,6 +26,7 @@ import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
+import com.sprint1.CapGPlus.exception.NotAPartOfCommunityException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
@@ -160,7 +161,8 @@ public class UserController {
 
 	@PostMapping("/user/{userId}/post/{postId}/comment")
 	private ResponseEntity<String> commentOnPost(@PathVariable int postId, @PathVariable int userId,
-			@Valid @RequestBody Comment comment) throws PostNotFoundException, UserNotFoundException {
+			@Valid @RequestBody Comment comment)
+			throws PostNotFoundException, UserNotFoundException, NotAPartOfCommunityException {
 		userService.commentOnPost(postId, userId, comment);
 		return new ResponseEntity<String>("Comment added to the post", HttpStatus.ACCEPTED);
 	}
