@@ -1,11 +1,13 @@
 package com.sprint1.CapGPlus.service.dto;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.dto.inner.PostDTOInner;
+import com.sprint1.CapGPlus.dto.outer.CommentDTO;
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.entity.Post;
 
@@ -31,6 +33,9 @@ public class PostDTOServiceImpl implements PostDTOService {
 		p.setUser(userDTOService.convertToDTO(post.getUser()));
 		p.setCommunity(communityDTOService.convertToInnerDTO(post.getCommunity()));
 //		p.setLikedBy();
+		if (post.getComments() == null) {
+			p.setComments(new ArrayList<CommentDTO>());
+		}
 		p.setComments(post.getComments().stream().map(commentDTOService::convertToDTO).collect(Collectors.toList()));
 		return p;
 	}
