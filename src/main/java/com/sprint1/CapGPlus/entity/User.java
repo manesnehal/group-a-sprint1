@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users")
@@ -30,7 +29,6 @@ public class User {
 	private String lastName;
 
 	@NotBlank(message = "Password is required")
-	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "Password should contain minimum eight characters, at least one letter and one number")
 	private String password;
 
 	@NotBlank(message = "UserName is required")
