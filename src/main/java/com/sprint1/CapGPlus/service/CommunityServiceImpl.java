@@ -99,7 +99,7 @@ public class CommunityServiceImpl implements CommunityService {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		Set<CommunityDTOOuter> c = userRepository.findById(userId).get().getCommunities().stream()
-				.map(communityDTOService::convertToDTO).collect(Collectors.toSet());
+				.map(communityDTOService::convertToOuterDTO).collect(Collectors.toSet());
 		return c;
 	}
 

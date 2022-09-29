@@ -74,7 +74,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public List<CommunityDTOOuter> getAllCommunities() {
-		return communityRepository.findAll().stream().map(communityDTOService::convertToDTO)
+		return communityRepository.findAll().stream().map(communityDTOService::convertToOuterDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -82,7 +82,7 @@ public class AdminServiceImpl implements AdminService {
 	public CommunityDTOOuter getCommunityById(int communityId) throws CommunityNotFoundException {
 		if (!communityRepository.existsById(communityId))
 			throw new CommunityNotFoundException();
-		return communityDTOService.convertToDTO(communityRepository.findById(communityId).get());
+		return communityDTOService.convertToOuterDTO(communityRepository.findById(communityId).get());
 	}
 
 	@Override
