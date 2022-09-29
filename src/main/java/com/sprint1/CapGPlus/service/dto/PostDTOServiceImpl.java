@@ -24,7 +24,7 @@ public class PostDTOServiceImpl implements PostDTOService {
 	@Override
 	public PostDTOOuter convertToOuterDTO(Post post) {
 		PostDTOOuter p = new PostDTOOuter();
-		p.setId(p.getId());
+		p.setId(post.getId());
 		p.setTitle(post.getTitle());
 		p.setContent(post.getContent());
 		p.setPostedAt(post.getPostedAt());
@@ -38,7 +38,7 @@ public class PostDTOServiceImpl implements PostDTOService {
 	@Override
 	public PostDTOInner convertToInnerDTO(Post post) {
 		PostDTOInner p = new PostDTOInner();
-		p.setId(p.getId());
+		p.setId(post.getId());
 		p.setTitle(post.getTitle());
 		p.setContent(post.getContent());
 		p.setPostedAt(post.getPostedAt());
