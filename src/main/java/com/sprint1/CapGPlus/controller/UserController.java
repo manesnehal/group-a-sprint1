@@ -2,6 +2,8 @@ package com.sprint1.CapGPlus.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,13 +64,24 @@ public class UserController {
 
 	// User-Auth starts
 	@PostMapping("/user")
-	public ResponseEntity<String> saveUser(@RequestBody User user) throws UserNameAlreadyExistsException {
+	public ResponseEntity<String> saveUser(@Valid @RequestBody User user) throws UserNameAlreadyExistsException {
+		// Check if password matches pattern
+		String password = user.getPassword().trim();
+		if (password == null || password.length() == 0)
+			return new ResponseEntity<String>("Password is required", HttpStatus.BAD_REQUEST);
+
+		if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"))
+			return new ResponseEntity<String>(
+					"Password should contain minimum eight characters, at least one letter and one number",
+					HttpStatus.BAD_REQUEST);
+
 		userService.saveUser(user);
 		return new ResponseEntity<String>("User successfully created", HttpStatus.CREATED);
 	}
 
 	@PostMapping("/user/login")
-	public ResponseEntity<String> userLogin(@RequestBody DataHolder dataHolder) throws InvalidCredentialsException {
+	public ResponseEntity<String> userLogin(@Valid @RequestBody DataHolder dataHolder)
+			throws InvalidCredentialsException {
 		if (userService.userLogin(dataHolder))
 			return new ResponseEntity<String>("Logged in succcessfully", HttpStatus.FOUND);
 		return new ResponseEntity<String>("Log in failed", HttpStatus.NOT_FOUND);
