@@ -19,6 +19,7 @@ import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
 import com.sprint1.CapGPlus.exception.ActionRepititionException;
+import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
@@ -262,18 +263,26 @@ public class UserServiceImpl implements UserService {
 		if (!set.contains(userRepository.findById(userId).get()))
 			throw new ActionNotAllowedException();
 		Post p = postRepository.findById(postId).get();
-		set.remove(userRepository.findById(userId).get());
+		User u = userRepository.findById(userId).get();
+		set.remove(u);
 		p.setLikedBy(set);
 		return postRepository.save(p);
 	}
 
 	@Override
-	public Comment commentOnPost(int postId, int userId, Comment comment) {
+	public Comment commentOnPost(int postId, int userId, Comment comment)
+			throws PostNotFoundException, UserNotFoundException {
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+		if (!postRepository.existsById(postId))
+			throw new PostNotFoundException();
 		Post post = postRepository.findById(postId).get();
 		User user = userRepository.findById(userId).get();
 		List<Post> list = userRepository.findById(userId).get().getPosts();
 		list.remove(post);
-		post.getComments().add(comment);
+		List<Comment> l = post.getComments();
+		l.add(comment);
+		post.setComments(l);
 		list.add(post);
 		user.setPosts(list);
 		postRepository.save(post);
@@ -284,19 +293,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteComment(int postId, int userId, int commentId) {
+	public void deleteComment(int postId, int userId, int commentId) throws UserNotFoundException,
+			PostNotFoundException, ActionNotAllowedException, CommentDoesNotExistException {
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+		if (!postRepository.existsById(postId))
+			throw new PostNotFoundException();
+		if (!commentRepository.existsById(commentId))
+			throw new CommentDoesNotExistException();
 		Post post = postRepository.findById(postId).get();
 		User user = userRepository.findById(userId).get();
 		Comment comment = commentRepository.findById(commentId).get();
+		if (post.getUser().getId() != user.getId() || comment.getPost().getId() != post.getId())
+			throw new ActionNotAllowedException();
 		List<Post> list = userRepository.findById(userId).get().getPosts();
 		list.remove(post);
-		post.getComments().remove(comment);
+		List<Comment> l = post.getComments();
+		l.remove(comment);
+		post.setComments(l);
 		list.add(post);
 		user.setPosts(list);
 		postRepository.save(post);
 		userRepository.save(user);
 		commentRepository.deleteById(commentId);
 	}
+
 	@Override
 	public List<Post> getAllPostsLikedByUser(int userId) {
 		return postRepository.getAllPostsLikedByUser(userId);

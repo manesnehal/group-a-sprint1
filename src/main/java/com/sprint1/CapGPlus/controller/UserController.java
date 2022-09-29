@@ -22,6 +22,7 @@ import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
 import com.sprint1.CapGPlus.exception.ActionRepititionException;
+import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
@@ -147,16 +148,19 @@ public class UserController {
 		return new ResponseEntity<String>("You have unliked the post", HttpStatus.ACCEPTED);
 	}
 
+	// User like ends
 	@PostMapping("/user/{userId}/post/{postId}/comment")
-	private ResponseEntity<Comment> commentOnPost(@PathVariable int postId, @PathVariable int userId,
-			@RequestBody Comment comment) {
-		Comment addedComment = userService.commentOnPost(postId, userId, comment);
-		return new ResponseEntity<Comment>(addedComment, HttpStatus.ACCEPTED);
+	private ResponseEntity<String> commentOnPost(@PathVariable int postId, @PathVariable int userId,
+			@RequestBody Comment comment) throws PostNotFoundException, UserNotFoundException {
+		userService.commentOnPost(postId, userId, comment);
+		return new ResponseEntity<String>("Comment added to the post", HttpStatus.ACCEPTED);
 	}
 
-	@DeleteMapping("/user/{userId}/post/{postId}/comment/{commentId})")
+	@DeleteMapping("/user/{userId}/post/{postId}/comment/{commentId}")
 	private ResponseEntity<String> deleteComment(@PathVariable int postId, @PathVariable int userId,
-			@PathVariable int commentId) {
+			@PathVariable int commentId)
+			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException,
+			CommentDoesNotExistException {
 		userService.deleteComment(postId, userId, commentId);
 		return new ResponseEntity<String>("Comment Deleted", HttpStatus.OK);
 	}
@@ -166,5 +170,4 @@ public class UserController {
 		return new ResponseEntity<>(userService.getAllPostsLikedByUser(userId), HttpStatus.OK);
 	}
 
-	// User like ends
 }

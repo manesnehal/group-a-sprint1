@@ -23,4 +23,10 @@ public class PostController {
 		return new ResponseEntity<Object>(list, HttpStatus.FOUND);
 	}
 
+	/*
+	 * @GetMapping("/posts") private ResponseEntity<List<Post>> getAllPosts(){
+	 * return new
+	 * ResponseEntity<List<Post>>(postService.getAllPosts(),HttpStatus.FOUND); }
+	 */
+
 }
