@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
+import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
@@ -128,12 +129,11 @@ public class AdminServiceImpl implements AdminService {
 		
 		Community community = communityRepository.findById(communityId).get();
 		Set<User> users = community.getUsers();
-		
 		String name = community.getName();
 		for (User user : users) {
 			user.getCommunities().remove(community);
 			userRepository.save(user);
-		}		
+		}
 		communityRepository.deleteById(communityId);
 		return name + " community is successfully deleted";
 	}

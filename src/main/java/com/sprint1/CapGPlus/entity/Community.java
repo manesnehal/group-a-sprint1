@@ -3,6 +3,7 @@ package com.sprint1.CapGPlus.entity;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class Community {
 	@ManyToMany(mappedBy = "communities")
 	private Set<User> users;
 
-	@OneToMany(mappedBy = "community")
+	@OneToMany(mappedBy = "community", cascade = CascadeType.REMOVE)
 	private List<Post> posts;
 
 	public int getId() {
