@@ -13,15 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-<<<<<<< HEAD
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
-=======
 import com.sprint1.CapGPlus.entity.Comment;
-import com.sprint1.CapGPlus.entity.Community;
-import com.sprint1.CapGPlus.dto.PostDTO;
-import com.sprint1.CapGPlus.dto.UserDTO;
->>>>>>> branch 'master' of https://github.com/manesnehal/group-a-sprint1.git
 import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
@@ -34,7 +28,6 @@ import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
-import com.sprint1.CapGPlus.repository.UserRepository;
 import com.sprint1.CapGPlus.service.CommunityService;
 import com.sprint1.CapGPlus.service.PostService;
 import com.sprint1.CapGPlus.service.UserService;
@@ -164,8 +157,7 @@ public class UserController {
 
 	@DeleteMapping("/user/{userId}/post/{postId}/comment/{commentId}")
 	private ResponseEntity<String> deleteComment(@PathVariable int postId, @PathVariable int userId,
-			@PathVariable int commentId)
-			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException,
+			@PathVariable int commentId) throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException,
 			CommentDoesNotExistException {
 		userService.deleteComment(postId, userId, commentId);
 		return new ResponseEntity<String>("Comment Deleted", HttpStatus.OK);
