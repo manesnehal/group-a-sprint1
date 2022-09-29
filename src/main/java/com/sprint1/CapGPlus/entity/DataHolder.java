@@ -1,8 +1,13 @@
 package com.sprint1.CapGPlus.entity;
 
+import javax.validation.constraints.NotBlank;
+
 public class DataHolder {
 
+	@NotBlank(message = "UserName is required")
 	private String userName;
+
+	@NotBlank(message = "Password is required")
 	private String password;
 
 	public String getUserName() {

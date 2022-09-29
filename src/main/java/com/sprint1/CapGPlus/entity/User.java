@@ -12,9 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
@@ -24,12 +22,21 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@NotBlank(message = "First name is required")
 	private String firstName;
+
+	@NotBlank(message = "Last name is required")
 	private String lastName;
+
+	@NotBlank(message = "Password is required")
 	private String password;
+
+	@NotBlank(message = "UserName is required")
 	private String userName;
 	
 
+
+//	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "community_id"))
 	Set<Community> communities;
