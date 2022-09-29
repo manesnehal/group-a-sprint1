@@ -183,6 +183,12 @@ public class UserServiceImpl implements UserService {
 		// Delete post
 		postRepository.deleteById(postId);
 	}
+	/*@Override
+	public UserDTOOuter getUserbyId(int userId) throws UserNotFoundException {
+		if (!userRepository.existsById(userId))
+			throw new PostNotFoundException();
+		return userDTOService.convertToDTO(userRepository.findById(userId).get());
+	}*/
 
 	@Override
 	public Post editPost(int userId, int postId, Post post)
