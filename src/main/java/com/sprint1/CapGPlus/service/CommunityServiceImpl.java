@@ -105,13 +105,13 @@ public class CommunityServiceImpl implements CommunityService {
 
 
 	public List<CommunityDTOOuter> getAllCommunities() {
-		return communityRepository.findAll().stream().map(communityDTOService::convertToDTO).collect(Collectors.toList());
+		return communityRepository.findAll().stream().map(communityDTOService::convertToOuterDTO).collect(Collectors.toList());
 	}
 	
 	public CommunityDTOOuter getCommunitybyCommunityId(int communityId) throws CommunityNotFoundException {
 		if (!communityRepository.existsById(communityId))
 			throw new CommunityNotFoundException();		
-		return communityDTOService.convertToDTO(communityRepository.findById(communityId).get());
+		return communityDTOService.convertToOuterDTO(communityRepository.findById(communityId).get());
 	}
 
 
