@@ -41,17 +41,6 @@ public class AdminController {
 
 	// Admin community starts
 
-//	@GetMapping("/admin/community")
-//	private ResponseEntity<List<CommunityDTO>> getAllCommunities() {
-//		return new ResponseEntity<>(adminService.getAllCommunities(), HttpStatus.OK);
-//	}
-//
-//	@GetMapping("/admin/community/{communityId}")
-//	private ResponseEntity<CommunityDTO> getCommunityById(@PathVariable int communityId)
-//			throws CommunityNotFoundException {
-//		return new ResponseEntity<>(adminService.getCommunityById(communityId), HttpStatus.OK);
-//	}
-
 	@PostMapping("/admin/community")
 	private ResponseEntity<Community> addNewCommunity(@RequestBody Community community)
 			throws CommunityAlreadyExistsException {
