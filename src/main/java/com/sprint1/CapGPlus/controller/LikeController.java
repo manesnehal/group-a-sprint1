@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
+import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.service.UserService;
 
 @RestController
@@ -18,7 +19,8 @@ public class LikeController {
 	private UserService userService;
 
 	@GetMapping("/user/{userId}/likes")
-	private ResponseEntity<List<PostDTOOuter>> getAllPostsLikedByUser(@PathVariable int userId) {
+	private ResponseEntity<List<PostDTOOuter>> getAllPostsLikedByUser(@PathVariable int userId)
+			throws UserNotFoundException {
 		return new ResponseEntity<List<PostDTOOuter>>(userService.getAllPostsLikedByUser(userId), HttpStatus.OK);
 	}
 }

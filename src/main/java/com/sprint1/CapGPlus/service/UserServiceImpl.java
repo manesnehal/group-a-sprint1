@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
@@ -335,7 +332,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<PostDTOOuter> getAllPostsLikedByUser(int userId) {
+	public List<PostDTOOuter> getAllPostsLikedByUser(int userId) throws UserNotFoundException {
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+
 		return postRepository.getAllPostsLikedByUser(userId).stream().map(postDTOService::convertToOuterDTO)
 				.collect(Collectors.toList());
 	}
