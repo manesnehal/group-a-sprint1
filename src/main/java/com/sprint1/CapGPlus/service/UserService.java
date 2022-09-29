@@ -2,14 +2,15 @@ package com.sprint1.CapGPlus.service;
 
 import java.util.List;
 
-import com.sprint1.CapGPlus.dto.PostDTO;
-import com.sprint1.CapGPlus.dto.UserDTO;
+import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
+import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
 import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.ActionNotAllowedException;
 import com.sprint1.CapGPlus.exception.ActionRepititionException;
+import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
@@ -32,7 +33,7 @@ public interface UserService {
 	public UserDTO getUserbyId(int userId) throws UserNotFoundException;
 
 	// User Post starts
-	public List<PostDTO> getAllUserPosts(int userId) throws UserNotFoundException;
+	public List<PostDTOOuter> getAllUserPosts(int userId) throws UserNotFoundException;
 
 	public Post createPost(int userId, Post post, int communityId)
 			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException;
@@ -52,10 +53,15 @@ public interface UserService {
 	// User post ends
 
 	// User Feed starts here
-	public List<PostDTO> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException;
+	public List<PostDTOOuter> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException;
 	// User Feed ends here
 
-	public Post commentOnPost(int userId, int postId, Comment comment);
+	public Comment commentOnPost(int postId, int UserId, Comment comment)
+			throws PostNotFoundException, UserNotFoundException;
+
+	public void deleteComment(int postId, int userId, int commentId)
+			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException,
+			CommentDoesNotExistException;
 
 	public List<Post> getAllPostsLikedByUser(int userId);
 }

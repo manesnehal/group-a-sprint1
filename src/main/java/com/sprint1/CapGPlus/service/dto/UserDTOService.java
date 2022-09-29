@@ -1,6 +1,6 @@
-package com.sprint1.CapGPlus.service;
+package com.sprint1.CapGPlus.service.dto;
 
-import com.sprint1.CapGPlus.dto.UserDTO;
+import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.entity.User;
 
 public interface UserDTOService {

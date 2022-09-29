@@ -2,7 +2,7 @@ package com.sprint1.CapGPlus.service;
 
 import java.util.List;
 
-import com.sprint1.CapGPlus.dto.CommunityDTO;
+import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
@@ -19,9 +19,9 @@ public interface AdminService {
 
 	// Admin community starts
 
-	List<CommunityDTO> getAllCommunities();
+	List<CommunityDTOOuter> getAllCommunities();
 
-	CommunityDTO getCommunityById(int communityId) throws CommunityNotFoundException;
+	CommunityDTOOuter getCommunityById(int communityId) throws CommunityNotFoundException;
 
 	Community addCommunity(Community community) throws CommunityAlreadyExistsException;
 

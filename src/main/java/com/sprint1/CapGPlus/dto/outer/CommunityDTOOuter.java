@@ -1,14 +1,14 @@
-package com.sprint1.CapGPlus.dto;
+package com.sprint1.CapGPlus.dto.outer;
 
 import java.util.List;
 import java.util.Set;
 
-public class CommunityDTO {
+public class CommunityDTOOuter {
 	private int id;
 	private String name;
 	private String description;
 	private Set<UserDTO> user;
-	private List<PostDTO> post;
+	private List<PostDTOOuter> post;
 
 	public int getId() {
 		return id;
@@ -42,11 +42,11 @@ public class CommunityDTO {
 		this.user = user;
 	}
 
-	public List<PostDTO> getPost() {
+	public List<PostDTOOuter> getPost() {
 		return post;
 	}
 
-	public void setPost(List<PostDTO> post) {
+	public void setPost(List<PostDTOOuter> post) {
 		this.post = post;
 	}
 }
