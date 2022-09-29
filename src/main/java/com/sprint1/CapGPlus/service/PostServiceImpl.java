@@ -25,7 +25,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<PostDTOOuter> getAllPosts() {
-		return postRepository.findAll().stream().map(postDTOService::convertToDTO).collect(Collectors.toList());
+		return postRepository.findAll().stream().map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
 	}
 
 }

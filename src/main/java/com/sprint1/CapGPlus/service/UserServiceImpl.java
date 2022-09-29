@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 	public List<PostDTOOuter> getAllUserPosts(int userId) throws UserNotFoundException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
-		return userRepository.findById(userId).get().getPosts().stream().map(postDTOService::convertToDTO)
+		return userRepository.findById(userId).get().getPosts().stream().map(postDTOService::convertToOuterDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -218,7 +218,8 @@ public class UserServiceImpl implements UserService {
 	// User post ends
 	// User Feed starts here
 	@Override
-	public List<PostDTOOuter> getAllPostsFromCommunities(int userId) throws UserNotFoundException, PostUnavailableException {
+	public List<PostDTOOuter> getAllPostsFromCommunities(int userId)
+			throws UserNotFoundException, PostUnavailableException {
 		try {
 			User u = userRepository.findById(userId).get();
 			if (u.getCommunities().isEmpty()) {
@@ -227,8 +228,8 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			throw new UserNotFoundException();
 		}
-		List<PostDTOOuter> p = postRepository.getAllPostsByCommunity(userId).stream().map(postDTOService::convertToDTO)
-				.collect(Collectors.toList());
+		List<PostDTOOuter> p = postRepository.getAllPostsByCommunity(userId).stream()
+				.map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
 		if (p.isEmpty()) {
 			throw new PostUnavailableException();
 		}
