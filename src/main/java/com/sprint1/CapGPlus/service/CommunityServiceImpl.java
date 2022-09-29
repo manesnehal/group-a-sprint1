@@ -96,33 +96,30 @@ public class CommunityServiceImpl implements CommunityService {
 		return "You can no longer post to " + community.getName();
 	}
 
-	public Set<CommunityDTOOuter> getCommunitiesbyUserId(int userId) throws UserNotFoundException {
+	public Set<CommunityDTOInner> getCommunitiesbyUserId(int userId) throws UserNotFoundException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
-		Set<CommunityDTOOuter> c = userRepository.findById(userId).get().getCommunities().stream()
-				.map(communityDTOService::convertToOuterDTO).collect(Collectors.toSet());
-		return c;
+		return userRepository.findById(userId).get().getCommunities().stream()
+				.map(communityDTOService::convertToInnerDTO).collect(Collectors.toSet());
 	}
-
 
 	public List<CommunityDTOInner> getAllCommunities() {
-		return communityRepository.findAll().stream().map(communityDTOService::convertToInnerDTO).collect(Collectors.toList());
+		return communityRepository.findAll().stream().map(communityDTOService::convertToInnerDTO)
+				.collect(Collectors.toList());
 	}
-	
+
 	public CommunityDTOOuter getCommunitybyCommunityId(int communityId) throws CommunityNotFoundException {
 		if (!communityRepository.existsById(communityId))
-			throw new CommunityNotFoundException();		
+			throw new CommunityNotFoundException();
 		return communityDTOService.convertToOuterDTO(communityRepository.findById(communityId).get());
 	}
 
-
 	public List<UserDTO> getUsersinCommunityId(int communityId) throws CommunityNotFoundException {
 		if (!communityRepository.existsById(communityId))
-			throw new CommunityNotFoundException();		
-		return communityRepository.findById(communityId).get().getUsers().stream().map(userDTOService::convertToDTO).collect(Collectors.toList());
+			throw new CommunityNotFoundException();
+		return communityRepository.findById(communityId).get().getUsers().stream().map(userDTOService::convertToDTO)
+				.collect(Collectors.toList());
 	}
-
-
 
 	// User Community ends
 }
