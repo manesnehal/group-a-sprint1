@@ -161,7 +161,7 @@ public class UserController {
 
 	@PostMapping("/user/{userId}/post/{postId}/comment")
 	private ResponseEntity<String> commentOnPost(@PathVariable int postId, @PathVariable int userId,
-			@RequestBody Comment comment) throws PostNotFoundException, UserNotFoundException {
+			@Valid @RequestBody Comment comment) throws PostNotFoundException, UserNotFoundException {
 		userService.commentOnPost(postId, userId, comment);
 		return new ResponseEntity<String>("Comment added to the post", HttpStatus.ACCEPTED);
 	}

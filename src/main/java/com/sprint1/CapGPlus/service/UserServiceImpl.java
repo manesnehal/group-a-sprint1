@@ -153,6 +153,7 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		communityRepository.save(community);
 		return postRepository.save(post);
+//		return postDTOService.convertToOuterDTO(postRepository.save(post));
 	}
 
 	@Override
@@ -188,12 +189,12 @@ public class UserServiceImpl implements UserService {
 		// Delete post
 		postRepository.deleteById(postId);
 	}
-	/*@Override
-	public UserDTOOuter getUserbyId(int userId) throws UserNotFoundException {
-		if (!userRepository.existsById(userId))
-			throw new PostNotFoundException();
-		return userDTOService.convertToDTO(userRepository.findById(userId).get());
-	}*/
+	/*
+	 * @Override public UserDTOOuter getUserbyId(int userId) throws
+	 * UserNotFoundException { if (!userRepository.existsById(userId)) throw new
+	 * PostNotFoundException(); return
+	 * userDTOService.convertToDTO(userRepository.findById(userId).get()); }
+	 */
 
 	@Override
 	public Post editPost(int userId, int postId, Post post)
@@ -222,8 +223,8 @@ public class UserServiceImpl implements UserService {
 		// Set updated title and content in the post already present in the repository
 		oldPost.setTitle(post.getTitle());
 		oldPost.setContent(post.getContent());
-
 		return postRepository.save(oldPost);
+//		return postDTOService.convertToOuterDTO(postRepository.save(oldPost));
 	}
 
 	// User post ends
