@@ -289,7 +289,15 @@ public class UserServiceImpl implements UserService {
 			throw new PostNotFoundException();
 		Post post = postRepository.findById(postId).get();
 		User user = userRepository.findById(userId).get();
-		if(!user.getCommunities().contains(post))
+		boolean flag = false;
+		Set<Community> communities = user.getCommunities();
+		for (Community ele : communities) {
+			if(ele.getPosts().contains(post)) {
+				flag = true;
+				break;
+			}
+		}
+		if(!flag)
 			throw new NotAPartOfCommunityException();
 		List<Post> list = userRepository.findById(userId).get().getPosts();
 		list.remove(post);
