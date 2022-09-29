@@ -35,13 +35,13 @@ public interface UserService {
 	// User Post starts
 	public List<PostDTOOuter> getAllUserPosts(int userId) throws UserNotFoundException;
 
-	public PostDTOOuter createPost(int userId, Post post, int communityId)
+	public Post createPost(int userId, Post post, int communityId)
 			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException;
 
 	public void deletePost(int userId, int postId)
 			throws ActionNotAllowedException, UserNotFoundException, PostNotFoundException;
 
-	public PostDTOOuter editPost(int userId, int postId, Post post)
+	public Post editPost(int userId, int postId, Post post)
 			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException;
 
 	public Post likeAPost(int userId, int postId)
