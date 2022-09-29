@@ -94,14 +94,14 @@ public class UserController {
 	}
 
 	@PostMapping("/user/{userId}/{communityId}/post")
-	private ResponseEntity<Post> createPostInCommunity(@PathVariable int userId, @PathVariable int communityId,
+	private ResponseEntity<PostDTOOuter> createPostInCommunity(@PathVariable int userId, @PathVariable int communityId,
 			@RequestBody Post post)
 			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException {
 		return new ResponseEntity<>(userService.createPost(userId, post, communityId), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/user/{userId}/post/{postId}")
-	private ResponseEntity<Post> editPostByPostId(@PathVariable int userId, @PathVariable int postId,
+	private ResponseEntity<PostDTOOuter> editPostByPostId(@PathVariable int userId, @PathVariable int postId,
 			@RequestBody Post post) throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
 		return new ResponseEntity<>(userService.editPost(userId, postId, post), HttpStatus.OK);
 	}
@@ -148,7 +148,16 @@ public class UserController {
 	@PostMapping("/user/{userId}/post/{postId}/comment")
 	private ResponseEntity<String> commentOnPost(@PathVariable int postId, @PathVariable int userId,
 			@RequestBody Comment comment) throws PostNotFoundException, UserNotFoundException {
-		userService.commentOnPost(postId, userId, comment);
+		try {
+			userService.commentOnPost(postId, userId, comment);
+		} catch (PostNotFoundException e) {
+
+		} catch (UserNotFoundException e) {
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
 		return new ResponseEntity<String>("Comment added to the post", HttpStatus.ACCEPTED);
 	}
 
