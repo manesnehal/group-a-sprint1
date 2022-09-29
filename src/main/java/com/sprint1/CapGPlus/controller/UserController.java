@@ -29,7 +29,6 @@ import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
 import com.sprint1.CapGPlus.service.CommunityService;
-import com.sprint1.CapGPlus.service.PostService;
 import com.sprint1.CapGPlus.service.UserService;
 
 @RestController
@@ -39,8 +38,6 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private CommunityService communityService;
-	@Autowired
-	private PostService postService;
 
 	// User community starts
 

@@ -47,6 +47,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CommentRepository commentRepository;
+
+	@Autowired
 	private UserDTOService userDTOService;
 
 	@Autowired
@@ -322,7 +324,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Post> getAllPostsLikedByUser(int userId) {
-		return postRepository.getAllPostsLikedByUser(userId);
+	public List<PostDTOOuter> getAllPostsLikedByUser(int userId) {
+		return postRepository.getAllPostsLikedByUser(userId).stream().map(postDTOService::convertToOuterDTO)
+				.collect(Collectors.toList());
 	}
 }
