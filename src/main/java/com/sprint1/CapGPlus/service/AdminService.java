@@ -28,7 +28,7 @@ public interface AdminService {
 	Community editCommunityDetails(int communityId, Community community)
 			throws CommunityNotFoundException, CommunityAlreadyExistsException;
 
-	String deleteCommunitybyCommunityId(int communityId);
+	String deleteCommunitybyCommunityId(int communityId) throws CommunityNotFoundException;
 
 	// Admin community ends
 }

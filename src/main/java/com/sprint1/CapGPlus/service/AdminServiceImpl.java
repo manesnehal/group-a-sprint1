@@ -1,6 +1,7 @@
 package com.sprint1.CapGPlus.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -10,12 +11,14 @@ import org.springframework.stereotype.Service;
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
+import com.sprint1.CapGPlus.entity.User;
 import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
 import com.sprint1.CapGPlus.exception.PasswordMatchException;
 import com.sprint1.CapGPlus.repository.AdminRepository;
 import com.sprint1.CapGPlus.repository.CommunityRepository;
+import com.sprint1.CapGPlus.repository.UserRepository;
 import com.sprint1.CapGPlus.service.dto.CommunityDTOService;
 
 @Service
@@ -25,6 +28,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private CommunityRepository communityRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	private CommunityDTOService communityDTOService;
@@ -116,12 +122,21 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public String deleteCommunitybyCommunityId(int communityId) {
-		// TODO Auto-generated method stub
-		return "This service is not yet available, implementation underprogress";
+	public String deleteCommunitybyCommunityId(int communityId) throws CommunityNotFoundException {
+		if (!communityRepository.existsById(communityId))
+			throw new CommunityNotFoundException();		
+		
+		Community community = communityRepository.findById(communityId).get();
+		Set<User> users = community.getUsers();
+		
+		String name = community.getName();
+		for (User user : users) {
+			user.getCommunities().remove(community);
+			userRepository.save(user);
+		}		
+		communityRepository.deleteById(communityId);
+		return name + " community is successfully deleted";
 	}
-
-
 
 	// Admin Community ends
 
