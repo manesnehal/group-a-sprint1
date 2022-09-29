@@ -107,14 +107,14 @@ public class UserController {
 	}
 
 	@PostMapping("/user/{userId}/{communityId}/post")
-	private ResponseEntity<PostDTOOuter> createPostInCommunity(@Valid @PathVariable int userId,
-			@PathVariable int communityId, @Valid @RequestBody Post post)
+	private ResponseEntity<Post> createPostInCommunity(@Valid @PathVariable int userId, @PathVariable int communityId,
+			@Valid @RequestBody Post post)
 			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException {
 		return new ResponseEntity<>(userService.createPost(userId, post, communityId), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/user/{userId}/post/{postId}")
-	private ResponseEntity<PostDTOOuter> editPostByPostId(@Valid @PathVariable int userId, @PathVariable int postId,
+	private ResponseEntity<Post> editPostByPostId(@Valid @PathVariable int userId, @PathVariable int postId,
 			@RequestBody Post post) throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
 		return new ResponseEntity<>(userService.editPost(userId, postId, post), HttpStatus.OK);
 	}
