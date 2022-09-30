@@ -66,7 +66,7 @@ public interface UserService {
 	public List<PostDTOOuter> getAllPostsLikedByUser(int userId) throws UserNotFoundException;
 
 	// User following starts here
-	public String followUser(int userId, int followingId);
+	public String followUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException;
 
 	public String unfollowUser(int userId, int followingId);
 

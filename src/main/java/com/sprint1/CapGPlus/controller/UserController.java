@@ -173,9 +173,10 @@ public class UserController {
 	}
 
 	// User following starts here
-	@PostMapping("/user/:userId/follow/:followingId")
-	public String followUser(@PathVariable int userId, @PathVariable int followingId) {
-		return null;
+	@PostMapping("/user/{userId}/follow/{followingId}")
+	public ResponseEntity<String> followUser(@PathVariable int userId, @PathVariable int followingId)
+			throws ActionNotAllowedException, UserNotFoundException {
+		return new ResponseEntity<String>(userService.followUser(userId, followingId),HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping("/user/:userId/unfollow/:followingId")
