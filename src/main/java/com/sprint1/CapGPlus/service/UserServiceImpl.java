@@ -317,8 +317,8 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(userId).get();
 		User following = userRepository.findById(followingId).get();
 
-		if (user.getFollowing().contains(following))
-			throw new ActionNotAllowedException();
+	//	if (!user.getFollowing().contains(following))
+		//	throw new ActionNotAllowedException();
 
 		user.getFollowing().add(following);
 		userRepository.save(user);
@@ -326,8 +326,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String unfollowUser(int userId, int followingId) {
-		return null;
+	public String unfollowUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException{
+		if(!userRepository.existsById(userId)  || !userRepository.existsById(followingId))
+			throw new UserNotFoundException();
+		
+		User user = userRepository.findById(userId).get();
+		User following = userRepository.findById(followingId).get();
+		
+		if (!user.getFollowing().contains(following))
+			throw new ActionNotAllowedException();
+
+		user.getFollowing().remove(following);
+		userRepository.save(user);
+		
+		return "You have unfollowed this user";
 	}
 
 	@Override

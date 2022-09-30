@@ -68,7 +68,7 @@ public interface UserService {
 	// User following starts here
 	public String followUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException;
 
-	public String unfollowUser(int userId, int followingId);
+	public String unfollowUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException;
 
 	public List<UserDTO> getFollowers(int userId);
 
