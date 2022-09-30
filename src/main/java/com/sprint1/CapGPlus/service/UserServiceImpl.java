@@ -314,7 +314,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.findById(userId).get();
 		User following = userRepository.findById(followingId).get();
 
-		if (user.getFollowing().contains(following))
+		if (user.getFollowing().contains(following) || userId == followingId)
 			throw new ActionNotAllowedException();
 
 		user.getFollowing().add(following);
