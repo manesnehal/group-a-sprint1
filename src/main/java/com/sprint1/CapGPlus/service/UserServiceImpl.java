@@ -318,7 +318,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDTO> getFollowers(int userId) {
-		return null;
+		return userRepository.getFollowers(userId).stream().map(userDTOService::convertToDTO)
+				.collect(Collectors.toList());
 	}
 
 	@Override

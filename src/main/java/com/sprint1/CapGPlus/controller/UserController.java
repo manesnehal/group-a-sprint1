@@ -183,9 +183,9 @@ public class UserController {
 		return null;
 	}
 
-	@GetMapping("/user/:userId/followers")
+	@GetMapping("/user/{userId}/followers")
 	public ResponseEntity<List<UserDTO>> getFollowers(@PathVariable int userId) {
-		return null;
+		return new ResponseEntity<List<UserDTO>>(userService.getFollowers(userId), HttpStatus.OK);
 	}
 
 	@GetMapping("/user/{userId}/following")
