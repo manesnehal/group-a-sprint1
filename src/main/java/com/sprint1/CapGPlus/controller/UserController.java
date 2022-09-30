@@ -193,9 +193,10 @@ public class UserController {
 		return new ResponseEntity<List<UserDTO>>(userService.getFollowing(userId), HttpStatus.OK);
 	}
 
-	@GetMapping("/user/:userId/following/feed")
-	public ResponseEntity<List<PostDTOOuter>> getFeedOfFollowingUsers(int userId) {
-		return null;
+	@GetMapping("/user/{userId}/following/feed")
+	public ResponseEntity<List<PostDTOOuter>> getFeedOfFollowingUsers(@PathVariable int userId)
+			throws UserNotFoundException {
+		return new ResponseEntity<>(userService.getFeedOfFollowingUsers(userId), HttpStatus.OK);
 	}
 	// User following starts here
 }
