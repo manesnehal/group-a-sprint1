@@ -171,5 +171,4 @@ public class UserController {
 		userService.deleteComment(postId, userId, commentId);
 		return new ResponseEntity<String>("Comment Deleted", HttpStatus.OK);
 	}
-
 }

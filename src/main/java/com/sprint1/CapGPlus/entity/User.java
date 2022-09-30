@@ -16,7 +16,6 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "userName")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,10 +32,12 @@ public class User {
 
 	@NotBlank(message = "UserName is required")
 	private String userName;
-	
 
+	// Set of users that this user follows
+	@ManyToMany
+	@JoinTable(name = "user_following", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "following_id"))
+	private Set<User> following;
 
-//	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "community_id"))
 	Set<Community> communities;
