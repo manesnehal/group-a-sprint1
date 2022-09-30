@@ -322,9 +322,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDTO> getFollowing(int userId) {
-		userRepository.findById(userId).get();
-		return null;
+	public List<UserDTO> getFollowing(int userId) throws UserNotFoundException {
+		if (!userRepository.existsById(userId)) {
+			throw new UserNotFoundException();
+		}
+		return userRepository.findById(userId).get().getFollowing().stream().map(userDTOService::convertToDTO)
+				.collect(Collectors.toList());
 	}
 
 	@Override
