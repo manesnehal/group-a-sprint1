@@ -308,16 +308,17 @@ public class UserServiceImpl implements UserService {
 	// User following starts here
 	@Override
 	public String followUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException {
-		if(!userRepository.existsById(userId) || !userRepository.existsById(followingId))
+		if (!userRepository.existsById(userId) || !userRepository.existsById(followingId))
 			throw new UserNotFoundException();
+
 		User user = userRepository.findById(userId).get();
-		User user1 = userRepository.findById(followingId).get();
-		if(user.getFollowing().contains(user1))
-			throw new ActionNotAllowedException("You are already following this user");
-		user.getFollowing().add(user1);
-		user1.getFollowers().add(user);
+		User following = userRepository.findById(followingId).get();
+
+		if (user.getFollowing().contains(following))
+			throw new ActionNotAllowedException();
+
+		user.getFollowing().add(following);
 		userRepository.save(user);
-		userRepository.save(user1);
 		return "You have followed this user";
 	}
 
