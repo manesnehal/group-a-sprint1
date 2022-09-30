@@ -22,7 +22,6 @@ import com.sprint1.CapGPlus.exception.ActionRepititionException;
 import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
 import com.sprint1.CapGPlus.exception.InvalidCredentialsException;
-import com.sprint1.CapGPlus.exception.NotAPartOfCommunityException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.PostUnavailableException;
 import com.sprint1.CapGPlus.exception.UserNameAlreadyExistsException;
@@ -282,34 +281,20 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Comment commentOnPost(int postId, int userId, Comment comment)
-			throws PostNotFoundException, UserNotFoundException, NotAPartOfCommunityException {
+			throws PostNotFoundException, UserNotFoundException, ActionNotAllowedException {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		if (!postRepository.existsById(postId))
 			throw new PostNotFoundException();
 		Post post = postRepository.findById(postId).get();
 		User user = userRepository.findById(userId).get();
-		boolean flag = false;
-		Set<Community> communities = user.getCommunities();
-		for (Community ele : communities) {
-			if(ele.getPosts().contains(post)) {
-				flag = true;
-				break;
-			}
+		if (!user.getCommunities().contains(post.getCommunity())) {
+			throw new ActionNotAllowedException();
 		}
-		if(!flag)
-			throw new NotAPartOfCommunityException();
-		List<Post> list = userRepository.findById(userId).get().getPosts();
-		list.remove(post);
-		List<Comment> l = post.getComments();
-		l.add(comment);
-		post.setComments(l);
-		list.add(post);
-		user.setPosts(list);
-		postRepository.save(post);
-		userRepository.save(user);
 		comment.setPost(post);
 		comment.setUser(user);
+		post.getComments().add(comment);
+		postRepository.save(post);
 		return commentRepository.save(comment);
 	}
 
@@ -323,19 +308,11 @@ public class UserServiceImpl implements UserService {
 		if (!commentRepository.existsById(commentId))
 			throw new CommentDoesNotExistException();
 		Post post = postRepository.findById(postId).get();
-		User user = userRepository.findById(userId).get();
 		Comment comment = commentRepository.findById(commentId).get();
 		if (comment.getUser().getId() != userId || comment.getPost().getId() != postId)
 			throw new ActionNotAllowedException();
-		List<Post> list = userRepository.findById(userId).get().getPosts();
-		list.remove(post);
-		List<Comment> l = post.getComments();
-		l.remove(comment);
-		post.setComments(l);
-		list.add(post);
-		user.setPosts(list);
+		post.getComments().remove(comment);
 		postRepository.save(post);
-		userRepository.save(user);
 		commentRepository.deleteById(commentId);
 	}
 
