@@ -323,6 +323,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDTO> getFollowing(int userId) {
+		userRepository.findById(userId).get();
 		return null;
 	}
 
