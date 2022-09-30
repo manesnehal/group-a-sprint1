@@ -120,4 +120,12 @@ public class User {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+
+	public Set<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(Set<User> following) {
+		this.following = following;
+	}
 }
