@@ -70,7 +70,7 @@ public interface UserService {
 
 	public String unfollowUser(int userId, int followingId);
 
-	public List<UserDTO> getFollowers(int userId);
+	public List<UserDTO> getFollowers(int userId) throws UserNotFoundException;
 
 	public List<UserDTO> getFollowing(int userId) throws UserNotFoundException;
 

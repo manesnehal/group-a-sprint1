@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query(value = "SELECT e FROM User e WHERE e.userName = :name")
 	public User findByUserName(@Param("name") String userName);
 
-	@Query(value = "SELECT user_id FROM user_following WHERE following_id = :userId", nativeQuery = true)
+	@Query(value = "SELECT * FROM users WHERE id IN (SELECT user_id FROM user_following WHERE following_id = :userId)", nativeQuery = true)
 	public List<User> getFollowers(@Param("userId") int userId);
 }
