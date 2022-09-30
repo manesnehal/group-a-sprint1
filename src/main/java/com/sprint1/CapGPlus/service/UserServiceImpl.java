@@ -45,6 +45,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PostRepository postRepository;
 
+	//@Autowired
+	//private FollowingRepository followingRepository;
+	
 	@Autowired
 	private CommentRepository commentRepository;
 
@@ -332,4 +335,6 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 	// User following ends here
+
+
 }
