@@ -171,4 +171,31 @@ public class UserController {
 		userService.deleteComment(postId, userId, commentId);
 		return new ResponseEntity<String>("Comment Deleted", HttpStatus.OK);
 	}
+
+	// User following starts here
+	@PostMapping("/user/:userId/follow/:followingId")
+	public String followUser(@PathVariable int userId, @PathVariable int followingId) {
+		return null;
+	}
+
+	@PostMapping("/user/:userId/unfollow/:followingId")
+	public String unFollowUser(@PathVariable int userId, @PathVariable int followingId) {
+		return null;
+	}
+
+	@GetMapping("/user/:userId/followers")
+	public List<UserDTO> getFollowers(@PathVariable int userId) {
+		return null;
+	}
+
+	@GetMapping("/user/:userId/following")
+	public List<UserDTO> getFollowing(@PathVariable int userId) {
+		return null;
+	}
+
+	@GetMapping("/user/:userId/following/feed")
+	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId) {
+		return null;
+	}
+	// User following starts here
 }

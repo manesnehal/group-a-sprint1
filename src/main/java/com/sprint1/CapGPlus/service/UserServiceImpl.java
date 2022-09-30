@@ -304,4 +304,31 @@ public class UserServiceImpl implements UserService {
 		return postRepository.getAllPostsLikedByUser(userId).stream().map(postDTOService::convertToOuterDTO)
 				.collect(Collectors.toList());
 	}
+
+	// User following starts here
+	@Override
+	public String followUser(int userId, int followingId) {
+		return null;
+	}
+
+	@Override
+	public String unfollowUser(int userId, int followingId) {
+		return null;
+	}
+
+	@Override
+	public List<UserDTO> getFollowers(int userId) {
+		return null;
+	}
+
+	@Override
+	public List<UserDTO> getFollowing(int userId) {
+		return null;
+	}
+
+	@Override
+	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId) {
+		return null;
+	}
+	// User following ends here
 }
