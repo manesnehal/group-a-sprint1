@@ -310,8 +310,19 @@ public class UserServiceImpl implements UserService {
 
 	// User following starts here
 	@Override
-	public String followUser(int userId, int followingId) {
-		return null;
+	public String followUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException {
+		if (!userRepository.existsById(userId) || !userRepository.existsById(followingId))
+			throw new UserNotFoundException();
+
+		User user = userRepository.findById(userId).get();
+		User following = userRepository.findById(followingId).get();
+
+		if (user.getFollowing().contains(following))
+			throw new ActionNotAllowedException();
+
+		user.getFollowing().add(following);
+		userRepository.save(user);
+		return "You have followed this user";
 	}
 
 	@Override
@@ -325,14 +336,25 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDTO> getFollowing(int userId) {
-		userRepository.findById(userId).get();
-		return null;
+	public List<UserDTO> getFollowing(int userId) throws UserNotFoundException {
+		if (!userRepository.existsById(userId)) {
+			throw new UserNotFoundException();
+		}
+		return userRepository.findById(userId).get().getFollowing().stream().map(userDTOService::convertToDTO)
+				.collect(Collectors.toList());
 	}
 
 	@Override
-	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId) {
-		return null;
+	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId) throws UserNotFoundException {
+		// Check if user exists
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+
+		// Get posts for following feed
+		List<Post> followingFeedPosts = postRepository.getFeedOfFollowingUsers(userId);
+
+		// Convert posts to PostDTOOuter and return
+		return followingFeedPosts.stream().map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
 	}
 	// User following ends here
 

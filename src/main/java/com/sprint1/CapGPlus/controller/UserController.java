@@ -173,9 +173,10 @@ public class UserController {
 	}
 
 	// User following starts here
-	@PostMapping("/user/:userId/follow/:followingId")
-	public String followUser(@PathVariable int userId, @PathVariable int followingId) {
-		return null;
+	@PostMapping("/user/{userId}/follow/{followingId}")
+	public ResponseEntity<String> followUser(@PathVariable int userId, @PathVariable int followingId)
+			throws ActionNotAllowedException, UserNotFoundException {
+		return new ResponseEntity<String>(userService.followUser(userId, followingId),HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping("/user/:userId/unfollow/:followingId")
@@ -188,14 +189,15 @@ public class UserController {
 		return null;
 	}
 
-	@GetMapping("/user/:userId/following")
-	public ResponseEntity<List<UserDTO>> getFollowing(@PathVariable int userId) {
-		return new ResponseEntity<List<UserDTO>>(userService.getFollowing(userId), HttpStatus.FOUND);
+	@GetMapping("/user/{userId}/following")
+	public ResponseEntity<List<UserDTO>> getFollowing(@PathVariable int userId) throws UserNotFoundException {
+		return new ResponseEntity<List<UserDTO>>(userService.getFollowing(userId), HttpStatus.OK);
 	}
 
-	@GetMapping("/user/:userId/following/feed")
-	public ResponseEntity<List<PostDTOOuter>> getFeedOfFollowingUsers(int userId) {
-		return null;
+	@GetMapping("/user/{userId}/following/feed")
+	public ResponseEntity<List<PostDTOOuter>> getFeedOfFollowingUsers(@PathVariable int userId)
+			throws UserNotFoundException {
+		return new ResponseEntity<>(userService.getFeedOfFollowingUsers(userId), HttpStatus.OK);
 	}
 	// User following starts here
 }

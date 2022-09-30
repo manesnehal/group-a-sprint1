@@ -36,7 +36,7 @@ public class User {
 	// Set of users that this user follows
 	@ManyToMany
 	@JoinTable(name = "user_following", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "following_id"))
-	private Set<User> following;
+	private Set<User> following;;
 
 	@ManyToMany
 	@JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "community_id"))
@@ -44,6 +44,14 @@ public class User {
 
 	@OneToMany(mappedBy = "user")
 	List<Post> posts;
+
+	public Set<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(Set<User> following) {
+		this.following = following;
+	}
 
 	public Set<Community> getCommunities() {
 		return communities;
@@ -101,11 +109,4 @@ public class User {
 		this.userName = userName;
 	}
 
-	public Set<User> getFollowing() {
-		return following;
-	}
-
-	public void setFollowing(Set<User> following) {
-		this.following = following;
-	}
 }

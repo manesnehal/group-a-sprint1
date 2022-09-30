@@ -66,14 +66,14 @@ public interface UserService {
 	public List<PostDTOOuter> getAllPostsLikedByUser(int userId) throws UserNotFoundException;
 
 	// User following starts here
-	public String followUser(int userId, int followingId);
+	public String followUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException;
 
 	public String unfollowUser(int userId, int followingId);
 
 	public List<UserDTO> getFollowers(int userId);
 
-	public List<UserDTO> getFollowing(int userId);
+	public List<UserDTO> getFollowing(int userId) throws UserNotFoundException;
 
-	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId);
+	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId) throws UserNotFoundException;
 	// User following ends here
 }
