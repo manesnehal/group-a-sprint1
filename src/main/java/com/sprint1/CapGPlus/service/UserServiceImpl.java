@@ -115,12 +115,10 @@ public class UserServiceImpl implements UserService {
 
 			throws UserNotFoundException, CommunityNotFoundException, ActionNotAllowedException {
 		// Check if user exists
-		// TODO JWT AUTH if (!userRepository.existsById(post.getUser().getId()))
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 
 		// Get user
-		// TODO User user = userRepository.findById(post.getUser().getId()).get();
 		User user = userRepository.findById(userId).get();
 
 		// Check if community exists
@@ -156,12 +154,10 @@ public class UserServiceImpl implements UserService {
 	public void deletePost(int userId, int postId)
 			throws ActionNotAllowedException, UserNotFoundException, PostNotFoundException {
 		// Check if user exists
-		// TODO JWT AUTH if (!userRepository.existsById(post.getUser().getId()))
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 
 		// Get user
-		// TODO User user = userRepository.findById(post.getUser().getId()).get();
 		User user = userRepository.findById(userId).get();
 
 		// Check if post exists
@@ -185,23 +181,15 @@ public class UserServiceImpl implements UserService {
 		// Delete post
 		postRepository.deleteById(postId);
 	}
-	/*
-	 * @Override public UserDTOOuter getUserbyId(int userId) throws
-	 * UserNotFoundException { if (!userRepository.existsById(userId)) throw new
-	 * PostNotFoundException(); return
-	 * userDTOService.convertToDTO(userRepository.findById(userId).get()); }
-	 */
 
 	@Override
 	public PostDTOOuter editPost(int userId, int postId, Post post)
 			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
 		// Check if user exists
-		// TODO JWT AUTH if (!userRepository.existsById(post.getUser().getId()))
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 
 		// Get user
-		// TODO User user = userRepository.findById(post.getUser().getId()).get();
 		User user = userRepository.findById(userId).get();
 
 		// Check if post exists
@@ -223,24 +211,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// User post ends
+
 	// User Feed starts here
 	@Override
 	public List<PostDTOOuter> getAllPostsFromCommunities(int userId)
 			throws UserNotFoundException, PostUnavailableException {
-		try {
-			User u = userRepository.findById(userId).get();
-			if (u.getCommunities().isEmpty()) {
-				return null;
-			}
-		} catch (Exception e) {
+		if (!userRepository.existsById(userId)) {
 			throw new UserNotFoundException();
 		}
 		List<PostDTOOuter> p = postRepository.getAllPostsByCommunity(userId).stream()
 				.map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
-		if (p.isEmpty()) {
-			throw new PostUnavailableException();
-		}
-
 		return p;
 	}
 	// User Feed ends here

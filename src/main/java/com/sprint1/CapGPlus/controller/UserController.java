@@ -38,6 +38,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
 	@Autowired
 	private CommunityService communityService;
 
@@ -134,9 +135,6 @@ public class UserController {
 	private ResponseEntity<Object> getFeed(@PathVariable int userId)
 			throws UserNotFoundException, PostUnavailableException {
 		List<PostDTOOuter> p = userService.getAllPostsFromCommunities(userId);
-		if (p == null) {
-			return new ResponseEntity<Object>("You haven't joined any community", HttpStatus.FOUND);
-		}
 		return new ResponseEntity<Object>(p, HttpStatus.FOUND);
 	}
 	// User Feed ends here

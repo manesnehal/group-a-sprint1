@@ -62,7 +62,6 @@ public class CommunityServiceImpl implements CommunityService {
 		// Save User, Community
 		userRepository.save(user);
 		communityRepository.save(community);
-
 		return "You are now a member of " + community.getName();
 	}
 
@@ -92,7 +91,6 @@ public class CommunityServiceImpl implements CommunityService {
 		// Save User, Community
 		userRepository.save(user);
 		communityRepository.save(community);
-
 		return "You can no longer post to " + community.getName();
 	}
 

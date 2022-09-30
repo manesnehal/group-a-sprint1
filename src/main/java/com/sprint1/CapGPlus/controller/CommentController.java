@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.dto.outer.CommentDTO;
-import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.exception.CommentDoesNotExistException;
 import com.sprint1.CapGPlus.exception.PostNotFoundException;
 import com.sprint1.CapGPlus.exception.UserNotFoundException;
@@ -22,6 +21,7 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 
+	// Get all comments by user
 	@GetMapping("/user/{userId}/comments")
 	private ResponseEntity<List<CommentDTO>> getAllCommentsByUser(@PathVariable int userId)
 			throws UserNotFoundException, CommentDoesNotExistException {
@@ -29,6 +29,7 @@ public class CommentController {
 		return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.FOUND);
 	}
 
+	// Get all commments on post
 	@GetMapping("/post/{postId}/comments")
 	private ResponseEntity<List<CommentDTO>> getAllCommentsOnAPost(@PathVariable int postId)
 			throws CommentDoesNotExistException, PostNotFoundException {
