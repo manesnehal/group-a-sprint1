@@ -74,6 +74,6 @@ public interface UserService {
 
 	public List<UserDTO> getFollowing(int userId);
 
-	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId);
+	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId) throws UserNotFoundException;
 	// User following ends here
 }

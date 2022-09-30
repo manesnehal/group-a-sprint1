@@ -328,8 +328,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId) {
-		return null;
+	public List<PostDTOOuter> getFeedOfFollowingUsers(int userId) throws UserNotFoundException {
+		// Check if user exists
+		if (!userRepository.existsById(userId))
+			throw new UserNotFoundException();
+
+		// Get posts for following feed
+		List<Post> followingFeedPosts = postRepository.getFeedOfFollowingUsers(userId);
+
+		// Convert posts to PostDTOOuter and return
+		return followingFeedPosts.stream().map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
 	}
 	// User following ends here
 }
