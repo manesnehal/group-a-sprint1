@@ -43,6 +43,9 @@ public class UserController {
 	private CommunityService communityService;
 
 	// User community starts
+	// 1. Join Community
+	// 2. Leave Community
+	// 3. Get Community by User id
 
 	@PostMapping("/user/{userId}/community/join/{communityId}")
 	private ResponseEntity<Object> joinCommunity(@PathVariable int userId, @PathVariable int communityId)
@@ -64,6 +67,11 @@ public class UserController {
 	// User community ends
 
 	// User-Auth starts
+	// 1. Add user
+	// 2. Login user
+	// 3. Get all users
+	// 4. Get user by id
+
 	@PostMapping("/user")
 	public ResponseEntity<String> saveUser(@Valid @RequestBody User user) throws UserNameAlreadyExistsException {
 		// Check if password matches pattern
@@ -84,28 +92,27 @@ public class UserController {
 	public ResponseEntity<String> userLogin(@Valid @RequestBody DataHolder dataHolder)
 			throws InvalidCredentialsException {
 		if (userService.userLogin(dataHolder))
-			return new ResponseEntity<String>("Logged in succcessfully", HttpStatus.FOUND);
-		return new ResponseEntity<String>("Log in failed", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("Logged in succcessfully", HttpStatus.OK);
+		throw new InvalidCredentialsException();
 	}
 
 	@GetMapping("/users")
 	public ResponseEntity<List<UserDTO>> getAllUsers() {
 		List<UserDTO> list = userService.getAllUsers();
-		return new ResponseEntity<List<UserDTO>>(list, HttpStatus.FOUND);
+		return new ResponseEntity<List<UserDTO>>(list, HttpStatus.OK);
 	}
-	// User-Auth ends
 
 	@GetMapping("/user/{userId}")
 	private ResponseEntity<Object> getUserById(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.getUserbyId(userId), HttpStatus.OK);
 	}
+	// User-Auth ends
 
 	// User posts starts
-
-	@GetMapping("/user/{userId}/post")
-	private ResponseEntity<List<PostDTOOuter>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
-		return new ResponseEntity<>(userService.getAllUserPosts(userId), HttpStatus.OK);
-	}
+	// 1. Create Post
+	// 2. Edit post
+	// 3. Get User's posts
+	// 4. Delete post
 
 	@PostMapping("/user/{userId}/{communityId}/post")
 	private ResponseEntity<PostDTOOuter> createPostInCommunity(@Valid @PathVariable int userId,
@@ -120,6 +127,11 @@ public class UserController {
 		return new ResponseEntity<>(userService.editPost(userId, postId, post), HttpStatus.OK);
 	}
 
+	@GetMapping("/user/{userId}/post")
+	private ResponseEntity<List<PostDTOOuter>> getUserPosts(@PathVariable int userId) throws UserNotFoundException {
+		return new ResponseEntity<>(userService.getAllUserPosts(userId), HttpStatus.OK);
+	}
+
 	@DeleteMapping("/user/{userId}/post/{postId}")
 	private ResponseEntity<String> deletePostByPostId(@PathVariable int userId, @PathVariable int postId)
 			throws ActionNotAllowedException, UserNotFoundException, PostNotFoundException {
@@ -131,37 +143,46 @@ public class UserController {
 	// User posts ends
 
 	// User Feed starts here
+	// 1. Get User's Feed
+
 	@GetMapping("/user/{userId}/feed")
 	private ResponseEntity<Object> getFeed(@PathVariable int userId)
 			throws UserNotFoundException, PostUnavailableException {
 		List<PostDTOOuter> p = userService.getAllPostsFromCommunities(userId);
-		return new ResponseEntity<Object>(p, HttpStatus.FOUND);
+		return new ResponseEntity<Object>(p, HttpStatus.OK);
 	}
 	// User Feed ends here
 
 	// User Like starts
+	// 1. Like a post
+	// 2. UnLike a post
+
 	@PostMapping("/user/{userId}/post/{postId}/like")
 	private ResponseEntity<String> likeAPost(@PathVariable int userId, @PathVariable int postId)
 			throws UserNotFoundException, PostNotFoundException, ActionRepititionException {
 		userService.likeAPost(userId, postId);
-		return new ResponseEntity<String>("You have liked the post", HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>("You have liked the post", HttpStatus.OK);
 	}
 
 	@PostMapping("/user/{userId}/post/{postId}/unlike")
 	private ResponseEntity<String> unlikeAPost(@PathVariable int userId, @PathVariable int postId)
 			throws UserNotFoundException, PostNotFoundException, ActionNotAllowedException {
 		userService.unlikeAPost(userId, postId);
-		return new ResponseEntity<String>("You have unliked the post", HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>("You have unliked the post", HttpStatus.OK);
 	}
 
 	// User like ends
+
+	// User comment starts here
+	// 1. Add comment
+	// 2. Delete comment
 
 	@PostMapping("/user/{userId}/post/{postId}/comment")
 	private ResponseEntity<String> commentOnPost(@PathVariable int postId, @PathVariable int userId,
 			@Valid @RequestBody Comment comment)
 			throws PostNotFoundException, UserNotFoundException, ActionNotAllowedException {
 		userService.commentOnPost(postId, userId, comment);
-		return new ResponseEntity<String>("Comment added to the post", HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>("Comment added to the post", HttpStatus.OK);
 	}
 
 	@DeleteMapping("/user/{userId}/post/{postId}/comment/{commentId}")
@@ -171,19 +192,26 @@ public class UserController {
 		userService.deleteComment(postId, userId, commentId);
 		return new ResponseEntity<String>("Comment Deleted", HttpStatus.OK);
 	}
+	// User comment ends here
 
 	// User following starts here
+	// 1. Follow a user
+	// 2. Unfollow a user
+	// 3. Get User's followers
+	// 4. Get User's following
+	// 5. Get User's following feed
+
 	@PostMapping("/user/{userId}/follow/{followingId}")
 	public ResponseEntity<String> followUser(@PathVariable int userId, @PathVariable int followingId)
 			throws ActionNotAllowedException, UserNotFoundException {
-		return new ResponseEntity<String>(userService.followUser(userId, followingId),HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>(userService.followUser(userId, followingId), HttpStatus.OK);
 	}
 
 	@PostMapping("/user/{userId}/unfollow/{followingId}")
-	public ResponseEntity<String> unFollowUser(@PathVariable int userId, @PathVariable int followingId) 
-		throws ActionNotAllowedException, UserNotFoundException {
-			return new ResponseEntity<String>(userService.unfollowUser(userId, followingId),HttpStatus.ACCEPTED);
-	
+	public ResponseEntity<String> unFollowUser(@PathVariable int userId, @PathVariable int followingId)
+			throws ActionNotAllowedException, UserNotFoundException {
+		return new ResponseEntity<String>(userService.unfollowUser(userId, followingId), HttpStatus.OK);
+
 	}
 
 	@GetMapping("/user/{userId}/followers")

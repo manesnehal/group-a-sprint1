@@ -18,6 +18,8 @@ public class LikeController {
 	@Autowired
 	private UserService userService;
 
+	// 1. Get all User's liked posts
+
 	@GetMapping("/user/{userId}/likes")
 	private ResponseEntity<List<PostDTOOuter>> getAllPostsLikedByUser(@PathVariable int userId)
 			throws UserNotFoundException {

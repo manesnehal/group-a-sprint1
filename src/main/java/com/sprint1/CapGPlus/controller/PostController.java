@@ -20,10 +20,14 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 
+	// 1. Get all posts
+	// 2. Get post by id
+	// 3. Get post by community
+
 	@GetMapping("/post")
 	public ResponseEntity<List<PostDTOOuter>> getAllPosts() {
 		List<PostDTOOuter> list = postService.getAllPosts();
-		return new ResponseEntity<>(list, HttpStatus.FOUND);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@GetMapping("/post/{postId}")

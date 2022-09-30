@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.entity.Admin;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.exception.CommunityAlreadyExistsException;
@@ -28,21 +26,27 @@ public class AdminController {
 	private AdminService adminService;
 
 	// Admin Auth starts here
+	// 1. Login
+	// 2. Update Password
+
 	@PostMapping("/admin/login")
 	private ResponseEntity<Object> adminLogin(@Valid @RequestBody Admin pass) throws InvalidCredentialsException {
 		String msg = adminService.adminLogin(pass);
-		return new ResponseEntity<Object>(msg, HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 
 	@PutMapping("/admin/update")
 	private ResponseEntity<Object> passwordUpdate(@Valid @RequestBody Admin a)
 			throws InvalidCredentialsException, PasswordMatchException {
 		String msg = adminService.updatePassword(a);
-		return new ResponseEntity<Object>(msg, HttpStatus.OK);
+		return new ResponseEntity<>(msg, HttpStatus.OK);
 	}
 	// Admin Auth ends here
 
 	// Admin community starts
+	// 1. Add Community
+	// 2. Edit Community
+	// 3. Delete Community
 
 	@PostMapping("/admin/community")
 	private ResponseEntity<Community> addNewCommunity(@Valid @RequestBody Community community)
@@ -56,7 +60,7 @@ public class AdminController {
 			throws CommunityNotFoundException, CommunityAlreadyExistsException {
 		return new ResponseEntity<>(adminService.editCommunityDetails(communityId, community), HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/community/{communityId}")
 	private ResponseEntity<Object> deleteCommunitybyCommunityId(@PathVariable int communityId)
 			throws CommunityNotFoundException {

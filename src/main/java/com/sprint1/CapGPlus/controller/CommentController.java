@@ -21,19 +21,20 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 
-	// Get all comments by user
+	// 1. Get all comments by user
+	// 2. Get all commments on post
+
 	@GetMapping("/user/{userId}/comments")
 	private ResponseEntity<List<CommentDTO>> getAllCommentsByUser(@PathVariable int userId)
 			throws UserNotFoundException, CommentDoesNotExistException {
 		List<CommentDTO> list = commentService.getAllCommentsByUser(userId);
-		return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.FOUND);
+		return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.OK);
 	}
 
-	// Get all commments on post
 	@GetMapping("/post/{postId}/comments")
 	private ResponseEntity<List<CommentDTO>> getAllCommentsOnAPost(@PathVariable int postId)
 			throws CommentDoesNotExistException, PostNotFoundException {
 		List<CommentDTO> list = commentService.getAllCommentsOnAPost(postId);
-		return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.FOUND);
+		return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.OK);
 	}
 }

@@ -21,20 +21,21 @@ public class CommunityController {
 	@Autowired
 	private CommunityService communityService;
 
-	// Get all communities
+	// 1. Get all communities
+	// 2. Get Community by id
+	// 3. Get users in community
+
 	@GetMapping("/community")
 	private ResponseEntity<List<CommunityDTOInner>> getAllCommunities() {
 		return new ResponseEntity<>(communityService.getAllCommunities(), HttpStatus.OK);
 	}
 
-	// Get Community by id
 	@GetMapping("/community/{communityId}")
 	private ResponseEntity<CommunityDTOOuter> getCommunitybyCommunityId(@PathVariable int communityId)
 			throws CommunityNotFoundException {
 		return new ResponseEntity<>(communityService.getCommunitybyCommunityId(communityId), HttpStatus.OK);
 	}
 
-	// Get users in community
 	@GetMapping("/community/{communityId}/users")
 	private ResponseEntity<List<UserDTO>> getUsersinCommunityId(@PathVariable int communityId)
 			throws CommunityNotFoundException {

@@ -20,7 +20,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	// Admin Auth starts here
 	@ExceptionHandler(value = InvalidCredentialsException.class)
 	public ResponseEntity<String> invalidPassword(InvalidCredentialsException e) {
-		return new ResponseEntity<>("Incorrect Credentials! Please Try Again!", HttpStatus.NOT_ACCEPTABLE);
+		return new ResponseEntity<>("Incorrect Credentials! Please Try Again!", HttpStatus.UNAUTHORIZED);
 	}
 
 	@ExceptionHandler(value = PasswordMatchException.class)
@@ -78,14 +78,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(value = CommentDoesNotExistException.class)
 	public ResponseEntity<String> CommentDoesNotExist(CommentDoesNotExistException e) {
-		return new ResponseEntity<>("Comment not found", HttpStatus.CONFLICT);
-	}
-	
-	@ExceptionHandler(value = NotAPartOfCommunityException.class)
-	public ResponseEntity<String> NotAPartOfCommunity(NotAPartOfCommunityException e) {
-		return new ResponseEntity<>("You are not a part of this community", HttpStatus.CONFLICT);
+		return new ResponseEntity<>("Comment not found", HttpStatus.NOT_FOUND);
 	}
 
+	@ExceptionHandler(value = NotAPartOfCommunityException.class)
+	public ResponseEntity<String> NotAPartOfCommunity(NotAPartOfCommunityException e) {
+		return new ResponseEntity<>("You are not a part of this community", HttpStatus.NOT_FOUND);
+	}
 
 	// Validation exception
 	@Override
@@ -94,9 +93,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		Map<String, List<String>> body = new HashMap<>();
 		List<String> errors = ex.getBindingResult().getFieldErrors().stream()
 				.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-
 		body.put("errors", errors);
-
 		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
 	}
 }
