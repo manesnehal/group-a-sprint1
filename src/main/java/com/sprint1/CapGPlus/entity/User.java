@@ -39,11 +39,31 @@ public class User {
 	private Set<User> following;
 
 	@ManyToMany
+	@JoinTable(name = "user_followers", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "following_id"))
+	private Set<User> followers;
+
+	public Set<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(Set<User> followers) {
+		this.followers = followers;
+	}
+
+	@ManyToMany
 	@JoinTable(name = "user_community", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "community_id"))
 	Set<Community> communities;
 
 	@OneToMany(mappedBy = "user")
 	List<Post> posts;
+
+	public Set<User> getFollowing() {
+		return following;
+	}
+
+	public void setFollowing(Set<User> following) {
+		this.following = following;
+	}
 
 	public Set<Community> getCommunities() {
 		return communities;
