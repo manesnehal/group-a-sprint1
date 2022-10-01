@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.dto.inner.CommunityDTOInner;
+import com.sprint1.CapGPlus.dto.inner.CommunityDTOInnerCount;
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.entity.Community;
 
@@ -35,6 +36,16 @@ public class CommunityDTOServiceImpl implements CommunityDTOService {
 		c.setId(community.getId());
 		c.setName(community.getName());
 		c.setDescription(community.getDescription());
+		return c;
+	}
+
+	@Override
+	public CommunityDTOInnerCount convertToInnerDTOCount(Community community) {
+		CommunityDTOInnerCount c = new CommunityDTOInnerCount();
+		c.setId(community.getId());
+		c.setName(community.getName());
+		c.setDescription(community.getDescription());
+		c.setNumberOfUsers(community.getUsers().size());
 		return c;
 	}
 
