@@ -17,4 +17,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
 	@Query(value = "SELECT * FROM post WHERE user_id IN (SELECT following_id FROM user_following WHERE user_id = :userId) ORDER BY posted_at DESC", nativeQuery = true)
 	public List<Post> getFeedOfFollowingUsers(@Param("userId") int userId);
+
+	@Query(value = "SELECT * FROM post WHERE title ILIKE %:searchQuery%", nativeQuery = true)
+	public List<Post> searchPostByTitle(@Param("searchQuery") String searchQuery);
 }

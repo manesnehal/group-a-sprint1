@@ -45,4 +45,10 @@ public class PostServiceImpl implements PostService {
 		Community community = communityRepository.findById(comId).get();
 		return community.getPosts().stream().map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
 	}
+
+	@Override
+	public List<PostDTOOuter> searchPostByTitle(String searchQuery) {
+		return postRepository.searchPostByTitle(searchQuery).stream().map(postDTOService::convertToOuterDTO)
+				.collect(Collectors.toList());
+	}
 }
