@@ -46,7 +46,6 @@ public class CommunityController {
 
 	@GetMapping("/community/search")
 	private ResponseEntity<Object> searchForCommunityByName(@RequestParam String name) {
-		System.out.println(name);
 		if (name.trim().length() == 0)
 			return new ResponseEntity<>("Please enter a search query", HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(communityService.searchForCommunityByName(name), HttpStatus.OK);

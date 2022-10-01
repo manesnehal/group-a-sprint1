@@ -45,9 +45,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PostRepository postRepository;
 
-	//@Autowired
-	//private FollowingRepository followingRepository;
-	
+	// @Autowired
+	// private FollowingRepository followingRepository;
+
 	@Autowired
 	private CommentRepository commentRepository;
 
@@ -101,6 +101,12 @@ public class UserServiceImpl implements UserService {
 		if (!userRepository.existsById(userId))
 			throw new UserNotFoundException();
 		return userDTOService.convertToDTO(userRepository.findById(userId).get());
+	}
+
+	@Override
+	public List<UserDTO> searchForUserByUsername(String searchQuery) {
+		return userRepository.searchForUserByUsername(searchQuery).stream().map(userDTOService::convertToDTO)
+				.collect(Collectors.toList());
 	}
 
 	// User post starts
@@ -326,19 +332,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String unfollowUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException{
-		if(!userRepository.existsById(userId)  || !userRepository.existsById(followingId))
+	public String unfollowUser(int userId, int followingId) throws ActionNotAllowedException, UserNotFoundException {
+		if (!userRepository.existsById(userId) || !userRepository.existsById(followingId))
 			throw new UserNotFoundException();
-		
+
 		User user = userRepository.findById(userId).get();
 		User following = userRepository.findById(followingId).get();
-		
+
 		if (!user.getFollowing().contains(following))
 			throw new ActionNotAllowedException();
 
 		user.getFollowing().remove(following);
 		userRepository.save(user);
-		
+
 		return "You have unfollowed this user";
 	}
 
@@ -346,7 +352,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserDTO> getFollowers(int userId) throws UserNotFoundException {
 		if (!userRepository.existsById(userId)) {
 			throw new UserNotFoundException();
-		}		
+		}
 		return userRepository.getFollowers(userId).stream().map(userDTOService::convertToDTO)
 				.collect(Collectors.toList());
 	}
@@ -373,6 +379,4 @@ public class UserServiceImpl implements UserService {
 		return followingFeedPosts.stream().map(postDTOService::convertToOuterDTO).collect(Collectors.toList());
 	}
 	// User following ends here
-
-
 }

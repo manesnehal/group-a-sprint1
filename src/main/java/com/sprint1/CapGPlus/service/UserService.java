@@ -29,6 +29,8 @@ public interface UserService {
 
 	public List<UserDTO> getAllUsers();
 
+	public List<UserDTO> searchForUserByUsername(String searchQuery);
+
 	// User Auth ends
 	public UserDTO getUserbyId(int userId) throws UserNotFoundException;
 
