@@ -119,5 +119,11 @@ public class CommunityServiceImpl implements CommunityService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public List<CommunityDTOInner> searchForCommunityByName(String searchQuery) {
+		return communityRepository.searchForCommunityByName(searchQuery).stream()
+				.map(communityDTOService::convertToInnerDTO).collect(Collectors.toList());
+	}
+
 	// User Community ends
 }

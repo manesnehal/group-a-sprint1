@@ -25,6 +25,8 @@ public interface CommunityService {
 
 	List<UserDTO> getUsersinCommunityId(int communityId) throws CommunityNotFoundException;
 
+	List<CommunityDTOInner> searchForCommunityByName(String searchQuery);
+
 	// User community ends
 
 }
