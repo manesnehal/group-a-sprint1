@@ -23,6 +23,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 	public List<Post> searchPostByTitle(@Param("searchQuery") String searchQuery);
 
 	// Get trending posts (overall)
-	@Query(value = "SELECT p FROM Post p ORDER BY (size(p.likedBy) * size(p.comments))/EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - p.postedAt)) DESC")
+	@Query(value = "SELECT p FROM Post p ORDER BY ((size(p.likedBy) + 1) * (size(p.comments) + 1))/EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - p.postedAt)) DESC")
 	public List<Post> getTrendingPosts(Pageable pageable);
 }
