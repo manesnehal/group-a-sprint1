@@ -25,6 +25,7 @@ public class PostController {
 	// 2. Get post by id
 	// 3. Get post by community
 	// 4. Search post by title
+	// 5. Get trending posts
 
 	@GetMapping("/post")
 	public ResponseEntity<List<PostDTOOuter>> getAllPosts() {
@@ -48,6 +49,11 @@ public class PostController {
 		if (title.trim().length() == 0)
 			return new ResponseEntity<>("Please enter a search query", HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(postService.searchPostByTitle(title), HttpStatus.OK);
+	}
+
+	@GetMapping("/post/trending")
+	private ResponseEntity<List<PostDTOOuter>> getTrendingPosts() {
+		return new ResponseEntity<>(postService.getTrendingPosts(), HttpStatus.OK);
 	}
 
 }

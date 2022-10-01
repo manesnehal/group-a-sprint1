@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
@@ -50,5 +51,12 @@ public class PostServiceImpl implements PostService {
 	public List<PostDTOOuter> searchPostByTitle(String searchQuery) {
 		return postRepository.searchPostByTitle(searchQuery).stream().map(postDTOService::convertToOuterDTO)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<PostDTOOuter> getTrendingPosts() {
+		return postRepository.getTrendingPosts(PageRequest.of(0, 1)).stream().map(postDTOService::convertToOuterDTO)
+				.collect(Collectors.toList());
+
 	}
 }
