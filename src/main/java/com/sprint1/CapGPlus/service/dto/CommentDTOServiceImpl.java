@@ -13,6 +13,7 @@ public class CommentDTOServiceImpl implements CommentDTOService {
 		CommentDTO c = new CommentDTO();
 		c.setId(comment.getId());
 		c.setContent(comment.getContent());
+		c.setUsername(comment.getUser().getUserName());
 		return c;
 	}
 
