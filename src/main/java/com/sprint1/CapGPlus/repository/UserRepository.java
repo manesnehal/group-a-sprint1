@@ -23,7 +23,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	// Get number of followers
 	@Query(value = "SELECT count(*) FROM user_following WHERE following_id = :userId", nativeQuery = true)
 	public int getNumberOfFollowers(@Param("userId") int userId);
-
-	@Query(value = "SELECT * FROM users WHERE id IN (SELECT following_id FROM (SELECT following_id, count(*) as count FROM user_following GROUP BY following_id ORDER BY count DESC) s) LIMIT 3", nativeQuery = true)
-	public List<User> getUsersHavingMaxFollowers();
 }

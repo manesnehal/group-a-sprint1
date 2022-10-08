@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
-import com.sprint1.CapGPlus.dto.outer.UserDTOFollowerCount;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
@@ -74,7 +73,6 @@ public class UserController {
 	// 3. Get all users
 	// 4. Get user by id
 	// 5. Search user by username
-	// 6. Get users having maximum followers
 
 	@PostMapping("/user")
 	public ResponseEntity<String> saveUser(@Valid @RequestBody User user) throws UserNameAlreadyExistsException {
@@ -116,11 +114,6 @@ public class UserController {
 		if (username.trim().length() == 0)
 			return new ResponseEntity<>("Please enter a search query", HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(userService.searchForUserByUsername(username), HttpStatus.OK);
-	}
-
-	@GetMapping("/user/top")
-	private ResponseEntity<List<UserDTOFollowerCount>> getUsersHavingMaxFollowers() {
-		return new ResponseEntity<>(userService.getUsersHavingMaxFollowers(), HttpStatus.OK);
 	}
 
 	// User-Auth ends

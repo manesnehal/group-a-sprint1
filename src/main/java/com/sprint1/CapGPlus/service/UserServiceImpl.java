@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
-import com.sprint1.CapGPlus.dto.outer.UserDTOFollowerCount;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.Community;
 import com.sprint1.CapGPlus.entity.DataHolder;
@@ -109,13 +108,6 @@ public class UserServiceImpl implements UserService {
 		return userRepository.searchForUserByUsername(searchQuery).stream().map(userDTOService::convertToDTO)
 				.collect(Collectors.toList());
 	}
-
-	@Override
-	public List<UserDTOFollowerCount> getUsersHavingMaxFollowers() {
-		return userRepository.getUsersHavingMaxFollowers().stream().map(userDTOService::convertToDTOFollowerCount)
-				.collect(Collectors.toList());
-	}
-
 	// User post starts
 
 	@Override
