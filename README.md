@@ -1,6 +1,6 @@
 ## Batch - JEE with DevOps & Cloud(GCP) PT Aug 9th Batch1
 # Sprint 1 - Group A - **Munity** - A community-based social media application
-[Documentation](https://capgemini-my.sharepoint.com/:b:/p/snehal-shahaji_mane/Ea0xg1dsV1NOmhFIVQSgTXIBrJj30WTD9g70wBclH2PEHg?e=n0kmaz)
+[Documentation](https://capgemini-my.sharepoint.com/:b:/p/snehal-shahaji_mane/EbtlYo74z_tCuRXVDinC6KUBKohWpKcO5f5tH-XVsYV5YQ?e=krHooq)
 
 ## Made using Spring Boot, Hibernate, and PostgreSQL
 
