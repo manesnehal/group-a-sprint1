@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.sprint1.CapGPlus.dto.inner.CommunityDTOInner;
+import com.sprint1.CapGPlus.dto.inner.CommunityDTOInnerCount;
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
@@ -24,6 +25,10 @@ public interface CommunityService {
 	CommunityDTOOuter getCommunitybyCommunityId(int communityId) throws CommunityNotFoundException;
 
 	List<UserDTO> getUsersinCommunityId(int communityId) throws CommunityNotFoundException;
+
+	List<CommunityDTOInner> searchForCommunityByName(String searchQuery);
+
+	List<CommunityDTOInnerCount> getTopCommunities();
 
 	// User community ends
 

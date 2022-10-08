@@ -9,8 +9,11 @@ import com.sprint1.CapGPlus.exception.PostNotFoundException;
 public interface PostService {
 	public List<PostDTOOuter> getAllPosts();
 
-	PostDTOOuter getPostById(int postId) throws PostNotFoundException;
+	public PostDTOOuter getPostById(int postId) throws PostNotFoundException;
 
 	public List<PostDTOOuter> getPostByCommunity(int comId) throws CommunityNotFoundException;
 
+	public List<PostDTOOuter> searchPostByTitle(String searchQuery);
+
+	public List<PostDTOOuter> getTrendingPosts();
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
+import com.sprint1.CapGPlus.dto.outer.UserDTOFollowerCount;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
@@ -28,6 +29,10 @@ public interface UserService {
 	public UserDTO findByUserName(String UserName);
 
 	public List<UserDTO> getAllUsers();
+
+	public List<UserDTO> searchForUserByUsername(String searchQuery);
+
+	public List<UserDTOFollowerCount> getUsersHavingMaxFollowers();
 
 	// User Auth ends
 	public UserDTO getUserbyId(int userId) throws UserNotFoundException;

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.dto.outer.PostDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
+import com.sprint1.CapGPlus.dto.outer.UserDTOFollowerCount;
 import com.sprint1.CapGPlus.entity.Comment;
 import com.sprint1.CapGPlus.entity.DataHolder;
 import com.sprint1.CapGPlus.entity.Post;
@@ -71,6 +73,8 @@ public class UserController {
 	// 2. Login user
 	// 3. Get all users
 	// 4. Get user by id
+	// 5. Search user by username
+	// 6. Get users having maximum followers
 
 	@PostMapping("/user")
 	public ResponseEntity<String> saveUser(@Valid @RequestBody User user) throws UserNameAlreadyExistsException {
@@ -106,6 +110,19 @@ public class UserController {
 	private ResponseEntity<Object> getUserById(@PathVariable int userId) throws UserNotFoundException {
 		return new ResponseEntity<>(userService.getUserbyId(userId), HttpStatus.OK);
 	}
+
+	@GetMapping("/user/search")
+	private ResponseEntity<Object> searchForUserByUsername(@RequestParam String username) {
+		if (username.trim().length() == 0)
+			return new ResponseEntity<>("Please enter a search query", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(userService.searchForUserByUsername(username), HttpStatus.OK);
+	}
+
+	@GetMapping("/user/top")
+	private ResponseEntity<List<UserDTOFollowerCount>> getUsersHavingMaxFollowers() {
+		return new ResponseEntity<>(userService.getUsersHavingMaxFollowers(), HttpStatus.OK);
+	}
+
 	// User-Auth ends
 
 	// User posts starts
