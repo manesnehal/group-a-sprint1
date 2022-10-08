@@ -14,6 +14,4 @@ public interface PostService {
 	public List<PostDTOOuter> getPostByCommunity(int comId) throws CommunityNotFoundException;
 
 	public List<PostDTOOuter> searchPostByTitle(String searchQuery);
-
-	public List<PostDTOOuter> getTrendingPosts();
 }

@@ -2,7 +2,6 @@ package com.sprint1.CapGPlus.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,8 +20,4 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 
 	@Query(value = "SELECT * FROM post WHERE title ILIKE %:searchQuery%", nativeQuery = true)
 	public List<Post> searchPostByTitle(@Param("searchQuery") String searchQuery);
-
-	// Get trending posts (overall)
-	@Query(value = "SELECT p FROM Post p ORDER BY ((size(p.likedBy) + 1) * (size(p.comments) + 1))/EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - p.postedAt)) DESC")
-	public List<Post> getTrendingPosts(Pageable pageable);
 }
