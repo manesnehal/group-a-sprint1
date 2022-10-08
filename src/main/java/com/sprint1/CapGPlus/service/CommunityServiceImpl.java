@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprint1.CapGPlus.dto.inner.CommunityDTOInner;
-import com.sprint1.CapGPlus.dto.inner.CommunityDTOInnerCount;
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.entity.Community;
@@ -125,12 +124,5 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityRepository.searchForCommunityByName(searchQuery).stream()
 				.map(communityDTOService::convertToInnerDTO).collect(Collectors.toList());
 	}
-
-	@Override
-	public List<CommunityDTOInnerCount> getTopCommunities() {
-		return communityRepository.getTopCommunities().stream().map(communityDTOService::convertToInnerDTOCount)
-				.collect(Collectors.toList());
-	}
-
 	// User Community ends
 }

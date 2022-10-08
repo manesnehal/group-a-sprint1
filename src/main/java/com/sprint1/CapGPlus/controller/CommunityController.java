@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprint1.CapGPlus.dto.inner.CommunityDTOInner;
-import com.sprint1.CapGPlus.dto.inner.CommunityDTOInnerCount;
 import com.sprint1.CapGPlus.dto.outer.CommunityDTOOuter;
 import com.sprint1.CapGPlus.dto.outer.UserDTO;
 import com.sprint1.CapGPlus.exception.CommunityNotFoundException;
@@ -27,7 +26,6 @@ public class CommunityController {
 	// 2. Get Community by id
 	// 3. Get users in community
 	// 4. Search for a community by name
-	// 5. Get top communities
 
 	@GetMapping("/community")
 	private ResponseEntity<List<CommunityDTOInner>> getAllCommunities() {
@@ -52,10 +50,4 @@ public class CommunityController {
 			return new ResponseEntity<>("Please enter a search query", HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(communityService.searchForCommunityByName(name), HttpStatus.OK);
 	}
-
-	@GetMapping("/community/top")
-	private ResponseEntity<List<CommunityDTOInnerCount>> getTopCommunities() {
-		return new ResponseEntity<>(communityService.getTopCommunities(), HttpStatus.OK);
-	}
-
 }

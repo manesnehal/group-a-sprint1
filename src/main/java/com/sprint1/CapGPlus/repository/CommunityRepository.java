@@ -15,8 +15,4 @@ public interface CommunityRepository extends JpaRepository<Community, Integer> {
 	// Search for a community using a search query
 	@Query(value = "SELECT * FROM community WHERE name ILIKE %:searchQuery%", nativeQuery = true)
 	public List<Community> searchForCommunityByName(@Param("searchQuery") String searchQuery);
-
-	// Get popular communities (top 3)
-	@Query(value = "SELECT * FROM community WHERE id IN (SELECT community_id FROM (SELECT count(*) as count, community_id FROM user_community GROUP BY community_id ORDER BY count DESC) s) LIMIT 3;", nativeQuery = true)
-	public List<Community> getTopCommunities();
 }
