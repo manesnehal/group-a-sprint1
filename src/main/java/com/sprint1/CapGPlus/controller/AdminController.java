@@ -25,6 +25,11 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
+  @GetMapping("/")
+  private ResponseEntity<String> home() {
+    return new ResponseEntity<>("Munity", HttpStatus.OK);
+  }
+
 	// Admin Auth starts here
 	// 1. Login
 	// 2. Update Password
